@@ -142,7 +142,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
 
 namespace ArtifyCore
 {
-    public static partial class ModuleHandler
+    internal static partial class ModuleHandler
     {
     
     }

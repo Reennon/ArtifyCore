@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ArtifyCore
 {
-    public static partial class ModuleHandler
+    internal static partial class ModuleHandler
     {
         public static readonly Dictionary<Type, ILinkerBaseFields> Modules = new()
         {

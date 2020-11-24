@@ -7,23 +7,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00907149-491a-4944-9e72-f28384b00f7e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ModuleHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ModuleHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net5.0/ArtifyCore.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net5.0/ArtifyCore.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net5.0/ArtifyCore.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net5.0/ArtifyCore.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net5.0/ref/ArtifyCore.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net5.0/ref/ArtifyCore.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net5.0/ArtifyCore.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net5.0/ArtifyCore.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net5.0/ArtifyCore.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net5.0/ArtifyCore.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net5.0/ref/ArtifyCore.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net5.0/ref/ArtifyCore.dll" afterDir="false" />
-    </list>
+    <list default="true" id="00907149-491a-4944-9e72-f28384b00f7e" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="roman" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -122,7 +117,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -179,10 +186,10 @@
           <line>16</line>
           <properties documentPath="D:\Projects\Artify\ArtifyCore\Program.cs" initialLine="9">
             <startOffsets>
-              <option value="452" />
+              <option value="-1" />
             </startOffsets>
             <endOffsets>
-              <option value="452" />
+              <option value="-1" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="22" />
