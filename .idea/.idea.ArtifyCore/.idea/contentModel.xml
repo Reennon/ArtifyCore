@@ -9,7 +9,15 @@
       <e p="bin" t="ExcludeRecursive" />
       <e p="IModuleInitializer.cs" t="Include" />
       <e p="InputHandler.cs" t="Include" />
+      <e p="ModuleDispatcher.cs" t="Include" />
       <e p="ModuleHandler.cs" t="Include" />
+      <e p="modules" t="Include">
+        <e p="python" t="Include">
+          <e p="main.py" t="Include" />
+          <e p="procPhoto.py" t="Include" />
+          <e p="procVideo.py" t="Include" />
+        </e>
+      </e>
       <e p="obj" t="ExcludeRecursive">
         <e p="Debug" t="Include">
           <e p="net5.0" t="Include">
@@ -20,6 +28,12 @@
       <e p="packages" t="ExcludeRecursive" />
       <e p="Program.cs" t="Include" />
       <e p="README.md" t="Include" />
+      <e p="Users" t="Include">
+        <e p="Yura" t="Include">
+          <e p="image1.png" t="Include" />
+          <e p="image2.png" t="Include" />
+        </e>
+      </e>
     </e>
   </component>
 </project>

@@ -1,0 +1,34 @@
+﻿<changelist name="Uncommitted_changes_before_Checkout_at_24_11_2020_17_51_[Default_Changelist]" date="1606233113756" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_11_2020_17_51_[Default_Changelist]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 24.11.2020 17:51 [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" value="obj/Debug/net5.0/ArtifyCore.pdb" />
+    <option name="AFTER_PATH" value="obj/Debug/net5.0/ArtifyCore.pdb" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_11_2020_17_51_[Default_Changelist]/ArtifyCore.pdb" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="obj/Debug/net5.0/ref/ArtifyCore.dll" />
+    <option name="AFTER_PATH" value="obj/Debug/net5.0/ref/ArtifyCore.dll" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_11_2020_17_51_[Default_Changelist]/ArtifyCore.dll" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="obj/Debug/net5.0/ArtifyCore.dll" />
+    <option name="AFTER_PATH" value="obj/Debug/net5.0/ArtifyCore.dll" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_11_2020_17_51_[Default_Changelist]/ArtifyCore1.dll" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="bin/Debug/net5.0/ref/ArtifyCore.dll" />
+    <option name="AFTER_PATH" value="bin/Debug/net5.0/ref/ArtifyCore.dll" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_11_2020_17_51_[Default_Changelist]/ArtifyCore2.dll" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="bin/Debug/net5.0/ArtifyCore.pdb" />
+    <option name="AFTER_PATH" value="bin/Debug/net5.0/ArtifyCore.pdb" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_11_2020_17_51_[Default_Changelist]/ArtifyCore1.pdb" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="bin/Debug/net5.0/ArtifyCore.dll" />
+    <option name="AFTER_PATH" value="bin/Debug/net5.0/ArtifyCore.dll" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_11_2020_17_51_[Default_Changelist]/ArtifyCore3.dll" />
+  </binary>
+</changelist>
