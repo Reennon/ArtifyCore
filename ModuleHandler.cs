@@ -10,9 +10,8 @@ namespace ArtifyCore
             {typeof(Dispatcher), new Dispatcher()},
             {typeof(InputHandler), new InputHandler()}
         };
-        
-        
     }
+    
     internal static partial class IOHandler<T>
         where T : ILinkerBaseFields
     {

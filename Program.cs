@@ -55,7 +55,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
         
     }
 
-    private class Initializer : IModuleInitializer, IInputOutputHandler
+    private sealed class Initializer : IModuleInitializer, IInputOutputHandler
     {
         public void Invoke(String str = "")
         {
@@ -67,7 +67,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
     }
 
 
-    private class Body : IModuleBody
+    private sealed class Body : IModuleBody
     {
         //public void Controller();
         
@@ -91,7 +91,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
         
     }
 
-    private class InvokeHandler : IInvokeHandler
+    private sealed class InvokeHandler : IInvokeHandler
     {
         
         public Action SwitchInputAction(String command) =>
@@ -108,7 +108,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
         
     }
 
-    public void InputInvoker(String command)
+    public  void InputInvoker(String command)
     {
         var action = _invokeHandler.SwitchInputAction(command);
         action();

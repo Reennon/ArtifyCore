@@ -33,7 +33,7 @@ namespace ArtifyCore {
         }
 
 
-        private class Initializer : IModuleInitializer, IInputOutputHandler
+        private sealed class Initializer : IModuleInitializer, IInputOutputHandler
         {
             
             public void Invoke(String runArgument = null)
@@ -46,7 +46,7 @@ namespace ArtifyCore {
         }
 
 
-        private class Body : IModuleBody
+        private sealed class Body : IModuleBody
         {
             private const Int32 Port = 50000;
 
@@ -135,7 +135,7 @@ namespace ArtifyCore {
         }
 
 
-        private class InvokeHandler : IInvokeHandler
+        private sealed class InvokeHandler : IInvokeHandler
         {
         
             public Action SwitchInputAction(String command) =>

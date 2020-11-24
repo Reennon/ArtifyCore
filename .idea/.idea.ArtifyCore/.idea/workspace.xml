@@ -8,12 +8,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00907149-491a-4944-9e72-f28384b00f7e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InputHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InputHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModuleHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ModuleHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JSON File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -33,9 +44,11 @@
     <changedPaths>
       <option value="$PROJECT_DIR$/IModuleInitializer.cs" />
       <option value="$PROJECT_DIR$/NewFile1.txt" />
+      <option value="$PROJECT_DIR$/.gitignore" />
+      <option value="$PROJECT_DIR$/Program.cs" />
       <option value="$PROJECT_DIR$/ModuleHandler.cs" />
       <option value="$PROJECT_DIR$/InputHandler.cs" />
-      <option value="$PROJECT_DIR$/Program.cs" />
+      <option value="$PROJECT_DIR$/MockJSON.json" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kTZbNrqJdMbtOoerypFEnJ67iE" />
@@ -129,26 +142,13 @@
           <line>66</line>
           <properties documentPath="D:\Projects\Artify\ArtifyCore\InputHandler.cs" initialLine="67" containingFunctionPresentation="method 'Update'">
             <startOffsets>
-              <option value="1804" />
+              <option value="1818" />
             </startOffsets>
             <endOffsets>
-              <option value="1825" />
+              <option value="1839" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/InputHandler.cs</url>
-          <line>112</line>
-          <properties documentPath="D:\Projects\Artify\ArtifyCore\InputHandler.cs" initialLine="107" containingFunctionPresentation="method 'Start'">
-            <startOffsets>
-              <option value="3367" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3404" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/B40FEC0A-39FF-4129-BE9C-26E6A74130AC/20/Socket.cs</url>

@@ -10,6 +10,7 @@
       <e p="bin" t="ExcludeRecursive" />
       <e p="IModuleInitializer.cs" t="Include" />
       <e p="InputHandler.cs" t="Include" />
+      <e p="MockJSON.json" t="Include" />
       <e p="ModuleHandler.cs" t="Include" />
       <e p="obj" t="ExcludeRecursive">
         <e p="Debug" t="Include">
