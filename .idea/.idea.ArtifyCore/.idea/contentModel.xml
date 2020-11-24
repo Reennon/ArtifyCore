@@ -4,6 +4,7 @@
     <e p="C:\Users\Roman\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
     <e p="C:\Users\Roman\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_ArtifyCore.355020015.00" t="ExcludeRecursive" />
     <e p="D:\Projects\Artify\ArtifyCore" t="IncludeRecursive">
+      <e p=".gitignore" t="Include" />
       <e p="ArtifyCore.csproj" t="IncludeRecursive" />
       <e p="ArtifyCore.sln" t="IncludeFlat" />
       <e p="bin" t="ExcludeRecursive" />
