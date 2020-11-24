@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ArtifyCore
 {
     internal static partial class ModuleHandler
     {
-        internal static readonly Dictionary<Type, ILinkerBaseFields> Modules = new()
+        public static readonly Dictionary<Type, ILinkerBaseFields> Modules = new()
         {
-            {typeof(Dispatcher), new Dispatcher()},
+            {typeof(Dispatcher), Dispatcher.GetInstance()},
             {typeof(InputHandler), new InputHandler()}
         };
     }
@@ -45,6 +46,7 @@ namespace ArtifyCore
             //         return generic?.Invoke(typeof(T), new Object?[] {command}) as String;
             // #nullable disable
         }  
+        
     
     }
 }
