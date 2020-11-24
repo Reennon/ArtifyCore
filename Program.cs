@@ -1,17 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using ArtifyCore;
 
-var c = new Dispatcher();
+
+
+Dispatcher.GetInstance();
 Console.ReadKey();
+
+//var c = new Dispatcher();
+//Array.ForEach(ModuleHandler.Modules.ToArray(),x=>x.GetType());
+
+//var c = Dispatcher.GetInstance();
+//-Dispatcher.GetInstance();
+// Console.WriteLine(c.GetHashCode());
+// Console.WriteLine(ModuleHandler.Modules[typeof(Dispatcher)].GetHashCode());
+// Console.WriteLine(c.GetHashCode());
+//-Console.ReadKey();
 //Task.WaitAll();
 
 
-
-internal static partial class ModuleHandler
-{
-    
-}
 
 
 
@@ -21,11 +32,18 @@ internal sealed class Dispatcher : ILinkerBaseFields
     private static readonly Dispatcher.Body _body;
     private static readonly Dispatcher.Initializer _initializer;
     private static readonly Dispatcher.InvokeHandler _invokeHandler;
+    private static Dispatcher _self;
 
+
+    private Dispatcher(){}
+
+    public static Dispatcher GetInstance() 
+        => _self ??= new Dispatcher();
+    
+    
     static Dispatcher()
     {
         _body = new Body();
-        
         _initializer = new Initializer();
         _invokeHandler = new InvokeHandler();
         _initializer.Invoke("");
@@ -122,3 +140,10 @@ internal sealed class Dispatcher : ILinkerBaseFields
 }
 
 
+namespace ArtifyCore
+{
+    public static partial class ModuleHandler
+    {
+    
+    }
+}

@@ -7,33 +7,50 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00907149-491a-4944-9e72-f28384b00f7e" name="Default Changelist" comment="" />
+    <list default="true" id="00907149-491a-4944-9e72-f28384b00f7e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ArtifyCore/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModuleHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ModuleHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net5.0/ArtifyCore.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net5.0/ArtifyCore.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net5.0/ArtifyCore.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net5.0/ArtifyCore.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net5.0/ref/ArtifyCore.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net5.0/ref/ArtifyCore.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net5.0/ArtifyCore.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net5.0/ArtifyCore.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net5.0/ArtifyCore.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net5.0/ArtifyCore.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net5.0/ref/ArtifyCore.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net5.0/ref/ArtifyCore.dll" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/F3DD31A3-D437-4D7D-9525-D887480DAE95/41A/List.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8D47347F-FC9A-4211-8DDE-5BB89F99F8BC/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8D47347F-FC9A-4211-8DDE-5BB89F99F8BC/7/ConsolePal.Windows.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Documents/OS/Lab2/Lab2/Lab2/Program.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/F3DD31A3-D437-4D7D-9525-D887480DAE95/1D0/Task.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/IL/F3DD31A3-D437-4D7D-9525-D887480DAE95/1b/419750b5/02000805pdb.il" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/B40FEC0A-39FF-4129-BE9C-26E6A74130AC/20/Socket.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/633820B9-579F-4675-BABE-D79321255F17/ad/be808bd2/MemberInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/F3DD31A3-D437-4D7D-9525-D887480DAE95/412/Dictionary.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/IModuleInitializer.cs" />
       <option value="$PROJECT_DIR$/NewFile1.txt" />
-      <option value="$PROJECT_DIR$/Program.cs" />
-      <option value="$PROJECT_DIR$/ModuleHandler.cs" />
       <option value="$PROJECT_DIR$/InputHandler.cs" />
+      <option value="$PROJECT_DIR$/ModuleHandler.cs" />
+      <option value="$PROJECT_DIR$/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kTZbNrqJdMbtOoerypFEnJ67iE" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -100,6 +117,18 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
@@ -145,7 +174,27 @@
           </properties>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Program.cs</url>
+          <line>16</line>
+          <properties documentPath="D:\Projects\Artify\ArtifyCore\Program.cs" initialLine="9">
+            <startOffsets>
+              <option value="452" />
+            </startOffsets>
+            <endOffsets>
+              <option value="452" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="DotNetProject">
+        <watch expression="typeof(ModuleHandler)" language="C#" />
+        <watch expression="((System.RuntimeType) typeof(ModuleHandler)).IsGenericParameter" />
+        <watch expression="typeof(T)" language="C#" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
