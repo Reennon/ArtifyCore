@@ -31,7 +31,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
         _initializer.Invoke("");
         
         IOHandler<InputHandler>.TInputInvoke("GetName");
-        
+        IOHandler<InputHandler>.TInputInvoke("GetName");
         //IOHandler<InputHandler>.TInputInvoke(ArtifyCore.ModuleHandler.Modules[typeof(InputHandler)] as InputHandler, "GetName");
         
         
