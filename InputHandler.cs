@@ -4,8 +4,8 @@ using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-
 
 namespace ArtifyCore {
 
@@ -58,6 +58,13 @@ namespace ArtifyCore {
             
             public void InputOutput(String command)
             {
+                var json = JsonSerializer.Deserialize<String>(command);
+                Console.WriteLine(json);
+                // var internalCommand = command switch
+                // {
+                //     "command"
+                //     "command" => command
+                // };
                 
                 Console.WriteLine($"-----------------{command}----------------------------------------");
             }
