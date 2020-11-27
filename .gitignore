@@ -6,3 +6,4 @@ riderModule.iml
 /_ReSharper.Caches/
 /CompiledCore/CompiledCore.csproj
 *.xml
+.vs/
