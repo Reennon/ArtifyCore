@@ -1,3 +1,8 @@
-﻿.idea/
-obj/
+.idea/
 bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+/CompiledCore/CompiledCore.csproj
+*.xml
