@@ -4,8 +4,8 @@ using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-
 
 namespace ArtifyCore {
 
@@ -33,7 +33,7 @@ namespace ArtifyCore {
         }
 
 
-        private class Initializer : IModuleInitializer, IInputOutputHandler
+        private sealed class Initializer : IModuleInitializer, IInputOutputHandler
         {
             
             public void Invoke(String runArgument = null)
@@ -46,7 +46,7 @@ namespace ArtifyCore {
         }
 
 
-        private class Body : IModuleBody
+        private sealed class Body : IModuleBody
         {
             private const Int32 Port = 50000;
 
@@ -58,8 +58,49 @@ namespace ArtifyCore {
             
             public void InputOutput(String command)
             {
+                command = command.Replace('\'', '\"');
+                var values = JsonSerializer.Deserialize<Dictionary<String, String>>(command);
+                Console.WriteLine(values?["message"]);
                 
-                Console.WriteLine($"-----------------{command}----------------------------------------");
+                var action = values?["command"] switch
+                {
+                    "run_module" 
+                        => _invokeHandler.SwitchInputAction("default_enhance") 
+                           + values?["module_language"] switch
+                           {
+                               "python" => _invokeHandler.SwitchInputAction("python")
+                               , _ => _invokeHandler.SwitchInputAction("default_enhance")
+                           }
+                    , "run_script" 
+                        => _invokeHandler.SwitchInputAction("run_script")
+                    , "build" 
+                        => _invokeHandler.SwitchInputAction("build")
+                    , "get_build" 
+                        => _invokeHandler.SwitchInputAction("get_build")
+                    , "update_executable" 
+                        => _invokeHandler.SwitchInputAction("update_executable")
+                            + values?["language_name"] switch
+                            {
+                                "python" => _invokeHandler.SwitchInputAction("python" + values?["language_executable"])
+                                , _ => _invokeHandler.SwitchInputAction("python" + values?["language_executable"])
+                            }
+                    , _ => _invokeHandler.SwitchInputAction("default_enhance"),
+                };
+
+                action();
+                
+                //     += values?["module_language"] switch
+                // {
+                //     "run_module" => _invokeHandler.SwitchInputAction("default_enhance"),
+                //     "run_script" => _invokeHandler.SwitchInputAction("default_enhance"), 
+                //     "build_script" => _invokeHandler.SwitchInputAction("default_enhance"),
+                //     "get_build" => _invokeHandler.SwitchInputAction("default_enhance"),
+                //     "update_executable" => _invokeHandler.SwitchInputAction("default_enhance"),
+                //     "default_enhance" => _invokeHandler.SwitchInputAction("default_enhance"),
+                //     _ => _invokeHandler.SwitchInputAction("default_enhance"),
+                // };
+
+                //Console.WriteLine($"-----------------{command}----------------------------------------");
             }
 
             public void Update()
@@ -135,7 +176,7 @@ namespace ArtifyCore {
         }
 
 
-        private class InvokeHandler : IInvokeHandler
+        private sealed class InvokeHandler : IInvokeHandler
         {
         
             public Action SwitchInputAction(String command) =>
