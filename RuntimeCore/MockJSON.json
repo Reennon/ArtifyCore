@@ -1,0 +1,30 @@
+﻿{
+  "command": "",
+  "message": "data-storage/Photo/",
+  "arguments": ""
+}
+/*
+
+  command
+    run module
+      run module and pass arguments
+    run script
+      run sript and pass the path  
+    
+  
+  module
+    /blurring.py
+    
+  script
+    /default.cs
+    
+  
+  executable
+    /python.exe
+    /java.exe
+  
+  arguments // Module Arguments // Or Script Arguments
+    "/photo1 count_faces"
+   
+
+*/
