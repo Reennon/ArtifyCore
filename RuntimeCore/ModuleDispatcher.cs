@@ -1,20 +1,28 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+
+
+//<<<<<<< HEAD:ModuleDispatcher.cs
+
 
 namespace RuntimeCore
+//>>>>>>> 835c943e39cec906ccddd1c26c383741ba55eca2:RuntimeCore/ModuleDispatcher.cs
 {
-    internal sealed class ModuleDispatcher : ILinkerBaseFields
+    internal class ModuleDispatcher : ILinkerBaseFields
     {
-        
+
         private static readonly ModuleDispatcher.Body _body;
         private static readonly ModuleDispatcher.Initializer _initializer;
         private static readonly ModuleDispatcher.InvokeHandler _invokeHandler;
         
-        
-        
+
+
+
         static ModuleDispatcher()
         {
             _body = new Body();
@@ -22,8 +30,8 @@ namespace RuntimeCore
             _invokeHandler = new InvokeHandler();
             _initializer.Invoke("");
         }
-        
-        
+
+
         public void NewData<T>() where T : new()
         {
 
@@ -33,54 +41,104 @@ namespace RuntimeCore
         private class Initializer : IModuleInitializer, IInputOutputHandler
         {
             
+
+
             public void Invoke(String runArgument = null)
             {
                 _body.Start();
-                Console.WriteLine("We have created ModuleDispatcher");
-                //throw new NotImplementedException();
+                Console.WriteLine(11111111);
+                
             }
             public void Invoke() => Invoke(String.Empty);
         }
-        
+
         private class Body : IModuleBody
         {
+            internal string pathToLanguages, pathToModules;
+            public object JsonConvert { get; private set; }
+            private static readonly Dictionary<string, string> ExecutableLanguage = new Dictionary<string, string>();
 
-            private static readonly Dictionary<string, string> ExecutableLanguage = new Dictionary<string, string>
-            {
-                {"python", "D:\\repo\\pythonProj\\Scripts\\python.exe"}
-            };//key - name of Language, value - path to env
-            
-            private static readonly Dictionary<string, string> ExecutableModule= new Dictionary<string, string>
-            {
-                {"procPhoto.py", "D:\\ProjArtify\\ArtifyCore\\modules\\python\\main.py" }
-            };//key - name of Module, value - path to module
-            
-            private readonly string _pathToModules;
-            
+
+            private static readonly Dictionary<string, string> ExecutableModule = new Dictionary<string, string>();
+
+            //private readonly string _pathToModules;
+
             public void InputOutput(String command)
             {
-                
+
                 Console.WriteLine($"-----------------{command}----------------------------------------");
             }
 
             public void Update()
             {
-                
-            }
-            
-            public void Start()
-            {
 
             }
-            
+
+            public void Start()
+            {
+                string path = @"InitializeDispatcherModule.txt";
+                string json = null;
+                string path2 = Directory.GetCurrentDirectory();
+                //string path1 = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Data\Names.txt");
+                //string[] files = File.ReadAllLines(path1);
+                try
+                {
+                    using (StreamReader sr = new StreamReader(path))
+                    {
+                        //Console.WriteLine(sr.ReadToEnd());
+                        json = sr.ReadToEnd();
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                JObject o = JObject.Parse(json);
+
+                Console.WriteLine(o.ToString());
+                pathToLanguages = Convert.ToString(o["Environments"]);
+                pathToModules = Convert.ToString(o["Modules"]);
+                //string[] fileEntries1 = Directory.GetFiles("D:\\ProjArtify\\ArtifyCore\\Environments");//all file in directory
+                string[] fileEntries1 = Directory.GetFiles(_body.pathToLanguages);//all file in directory
+                string result; 
+                foreach (string file in fileEntries1)
+                {
+                    result = Path.GetFileName(file);
+
+                    ExecutableLanguage.Add(result, file);
+                            Console.WriteLine("File {0} successfully added", result);
+                       
+                }
+                string[] fileEntries2 = Directory.GetDirectories(_body.pathToModules);//all file in directory
+                
+                foreach (string file in fileEntries2)
+                {
+                    result = Path.GetFileName(file);
+                    string[] fileEntries3 = Directory.GetFiles(_body.pathToModules + "\\"+result);//all file in directory
+
+                    foreach (string file1 in fileEntries3)
+                    {
+                        result = Path.GetFileName(file1);
+
+                        ExecutableModule.Add(result, file1);
+                        Console.WriteLine("File {0} successfully added", result);
+
+                    }
+
+                }
+                
+                //throw new NotImplementedException();
+            }
+
             public String GetStr() => base.ToString();
 
             public void SetStr() => Console.WriteLine(base.ToString());
-            
+
             internal string RunModuleAsync
             (
-                string languageType = "python", 
-                string moduleType="main.py", 
+                string languageType = "python",
+                string moduleType = "main.py",
                 string additionalArguments = "D:\\ProjArtify\\ArtifyCore\\Users\\Yura\\image2.png"
             )
             {
@@ -88,7 +146,7 @@ namespace RuntimeCore
                 start.FileName = ExecutableLanguage[languageType];
                 start.Arguments = string.Format("{0} {1}", ExecutableLanguage[moduleType], additionalArguments);
                 start.UseShellExecute = false;
-            
+
                 start.RedirectStandardOutput = true;
                 using (Process process = Process.Start(start))
                 {
@@ -96,7 +154,7 @@ namespace RuntimeCore
                     {
                         string result = reader.ReadToEnd();
                         Console.Write(result);
-                    
+
                     }
                 }
 
@@ -104,29 +162,41 @@ namespace RuntimeCore
                 return "234234";
 
             }
-            
+
             internal string GetLanguageValue(string key)
             {
-                return ExecutableLanguage[key];     
+                return ExecutableLanguage[key];
             }
             internal IEnumerable<String> GetListOfLanguages()
             {
                 return ExecutableLanguage.Where(x => ExecutableLanguage.Values.Contains(x.Value)).Select(x => x.Key);
             }
-            internal static void SetLanguageValue(string moduleName, string modulePath)
+            internal static void SetLanguageValue(string languageName)//, string modulePath)
             {
-                ExecutableLanguage.Add(moduleName, modulePath);
+                string[] fileEntries = Directory.GetFiles(_body.pathToLanguages);//all file in directory
+
+                foreach (string file in fileEntries)
+                {
+                    if (file == _body.pathToLanguages + languageName)//check if the file is in a folder
+                    {
+                        if (!ExecutableModule.ContainsKey(languageName))//check if the file is in the dictionary
+                        {
+                            ExecutableLanguage.Add(languageName, file);
+                            Console.WriteLine("File successfully added");
+                        }
+                    }
+                }
             }
             //
 
             //Set + Get Modules
-            internal static void SetModuleValue(string languageName = "python", string fileName= "main.py")//register module in the dictionary
+            internal static void SetModuleValue(string languageName = "python", string fileName = "main.py")//register module in the dictionary
             {
                 string[] fileEntries = Directory.GetFiles("D:\\ProjArtify\\ArtifyCore\\modules\\" + languageName);//all file in directory
 
                 foreach (string file in fileEntries)
                 {
-                    if(file == "D:\\ProjArtify\\ArtifyCore\\modules\\" + languageName + "\\" + fileName)//check if the file is in a folder
+                    if (file == _body.pathToModules + languageName + "\\" + fileName)//check if the file is in a folder
                     {
                         if (!ExecutableModule.ContainsKey(fileName))//check if the file is in the dictionary
                         {
@@ -146,24 +216,25 @@ namespace RuntimeCore
 
         private class InvokeHandler : IInvokeHandler
         {
-        
+
             public Action SwitchInputAction(String command) =>
                 command switch
                 {
                     "GetName" => _body.SetStr,
+                    "MockStart" => _body.Start,
                     _ => throw new Exception()
                 };
-        
+
             public Func<String> SwitchOutputAction(String command) =>
                 command switch
                 {
                     "GetName" => _body.GetStr,
                     _ => _body.GetStr
                 };
-        
+
         }
-        
-        
+
+
         public void InputInvoker(String command)
         {
             var action = _invokeHandler.SwitchInputAction(command);
@@ -176,18 +247,17 @@ namespace RuntimeCore
             var func = _invokeHandler.SwitchOutputAction(command);
             return func();
         }
-        
-        
-        
-        
-        
-  
-        
+
+
+
+
+
+
+
 
         //Set + Get Languages
-        
+
         //
     }
 
 }
-

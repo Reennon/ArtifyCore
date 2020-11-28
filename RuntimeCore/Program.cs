@@ -6,7 +6,11 @@ using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using RuntimeCore;
 
+
+
+
 Dispatcher.GetInstance();
+
 Console.ReadKey();
 
 
@@ -37,8 +41,8 @@ internal sealed class Dispatcher : ILinkerBaseFields
         _initializer.Invoke("");
 
         IOHandler<InputHandler>.TInputInvoke("GetName");
-        IOHandler<InputHandler>.TInputInvoke("GetName");
-        //IOHandler<InputHandler>.TInputInvoke(ArtifyCore.ModuleHandler.Modules[typeof(InputHandler)] as InputHandler, "GetName");
+        IOHandler<ModuleDispatcher>.TInputInvoke("GetName");
+        
 
 
         // IOHandler<InputHandler>
@@ -51,9 +55,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
         //         "GetName");
 
 
-        //_inputHandler = new InputHandler();
-        //Console.WriteLine(typeof(Dispatcher)+"!");
-        //throw new Exception();
+     
     }
 
     public void NewData<T>() where T : new()
@@ -66,7 +68,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
         {
             _body.Start();
             Console.WriteLine($"{base.ToString()} has started!");
-            //throw new NotImplementedException();
+           
         }
 
         public void Invoke() => Invoke(String.Empty);
@@ -75,7 +77,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
 
     private sealed class Body : IModuleBody
     {
-        //public void Controller();
+        
 
         public void InputOutput(String command)
         {
@@ -90,7 +92,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
         public void Start()
         {
             Console.WriteLine($"{base.ToString()} has started!");
-            //throw new NotImplementedException();
+            
         }
 
         public String GetStr() => String.Empty;
