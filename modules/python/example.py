@@ -1,3 +1,5 @@
+
+
 # 1)Your program will only accept one argument - path to the image.
 # Use sys.argv[1] to get it.
 
@@ -43,3 +45,19 @@ img = cv2.rotate(img, cv2.cv2.ROTATE_90_CLOCKWISE)
 
 # Store the resultant image
 status = cv2.imwrite(arr[0], img)
+print("""{
+  "numberOfImages": 2,
+  "numberOfImage": [
+    {
+
+      "Name": "D:/ProjArtify/ArtifyCore/Users/Yura/image1.png"
+
+    },
+    {
+      "Name": "D:/ProjArtify/ArtifyCore/Users/Yura/image2.png"
+
+    }
+  ],
+  "orderCompleted": true
+}""")
+resul = 10

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 
 //<<<<<<< HEAD:ModuleDispatcher.cs
@@ -46,7 +47,7 @@ namespace RuntimeCore
             public void Invoke(String runArgument = null)
             {
                 _body.Start();
-                Console.WriteLine(11111111);
+               
                 
             }
             public void Invoke() => Invoke(String.Empty);
@@ -105,9 +106,11 @@ namespace RuntimeCore
                 foreach (string file in fileEntries1)
                 {
                     result = Path.GetFileName(file);
-
-                    ExecutableLanguage.Add(result, file);
-                            Console.WriteLine("File {0} successfully added", result);
+                    if (result == "python.exe")
+                    {
+                        ExecutableLanguage.Add(result, file);
+                        Console.WriteLine("File {0} successfully added", result);
+                    }
                        
                 }
                 string[] fileEntries2 = Directory.GetDirectories(_body.pathToModules);//all file in directory
@@ -127,7 +130,7 @@ namespace RuntimeCore
                     }
 
                 }
-                
+                RunModuleAsync();
                 //throw new NotImplementedException();
             }
 
@@ -135,31 +138,33 @@ namespace RuntimeCore
 
             public void SetStr() => Console.WriteLine(base.ToString());
 
-            internal string RunModuleAsync
+            internal async Task  RunModuleAsync
             (
-                string languageType = "python",
-                string moduleType = "main.py",
+                string languageType = "python.exe",
+                string moduleType = "example.py",
                 string additionalArguments = "D:\\ProjArtify\\ArtifyCore\\Users\\Yura\\image2.png"
             )
             {
                 ProcessStartInfo start = new ProcessStartInfo();
-                start.FileName = ExecutableLanguage[languageType];
-                start.Arguments = string.Format("{0} {1}", ExecutableLanguage[moduleType], additionalArguments);
+                start.FileName = ExecutableLanguage[languageType];//ExecutableLanguage[languageType];
+                start.Arguments = string.Format("{0} {1}", ExecutableModule[moduleType], additionalArguments);
                 start.UseShellExecute = false;
 
                 start.RedirectStandardOutput = true;
+                Console.WriteLine(111111111111111);
                 using (Process process = Process.Start(start))
                 {
                     using (StreamReader reader = process.StandardOutput)
                     {
-                        string result = reader.ReadToEnd();
+                        string result = await reader.ReadToEndAsync();
                         Console.Write(result);
-
+                        int res = process.ExitCode;
+                        Console.WriteLine(res);
                     }
                 }
-
-
-                return "234234";
+                Console.WriteLine(111111111111111);
+                
+                //return "234234";
 
             }
 
