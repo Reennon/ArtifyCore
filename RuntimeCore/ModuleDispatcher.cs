@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 
@@ -74,8 +76,50 @@ namespace RuntimeCore
             {
 
             }
+            static async Task<string> run_serverAsync()
+            {
+                // Open the named pipe.
+                var server = new NamedPipeServerStream("NPtes");
 
-            public void Start()
+                Console.WriteLine("Waiting for connection...");
+                
+                await server.WaitForConnectionAsync();
+                
+                Console.WriteLine("Connected.");
+                var br = new BinaryReader(server);
+                //var bw = new BinaryWriter(server);
+                string json = null;
+                while (true)
+                {
+                    try
+                    {
+                        var len = (int)br.ReadUInt32();            // Read string length
+                      
+                        json = new string(br.ReadChars(len));    // Read string
+
+                        Console.WriteLine(json);
+
+                        //json = new string(json.Reverse().ToArray());  // Just for fun
+
+                        //var buf = Encoding.ASCII.GetBytes(json);     // Get ASCII byte array     
+                        //bw.Write((uint)buf.Length);                // Write string length
+                        //bw.Write(buf);                              // Write string
+                        //Console.WriteLine("Wrote: \"{0}\"", json);
+                    }
+                    catch (EndOfStreamException)
+                    {
+                        
+                        break;                    // When client disconnects
+                    }
+                }
+
+                Console.WriteLine("Client disconnected.");
+                server.Close();
+                server.Dispose();
+                return json;
+            }
+
+            public async void Start()
             {
                 string path = @"InitializeDispatcherModule.txt";
                 string json = null;
@@ -130,7 +174,7 @@ namespace RuntimeCore
                     }
 
                 }
-                RunModuleAsync();
+                await RunModuleAsync();
                 //throw new NotImplementedException();
             }
 
@@ -138,15 +182,15 @@ namespace RuntimeCore
 
             public void SetStr() => Console.WriteLine(base.ToString());
 
-            internal async Task  RunModuleAsync
+            internal async Task<string>  RunModuleAsync
             (
                 string languageType = "python.exe",
-                string moduleType = "example.py",
+                string moduleType = "main.py",
                 string additionalArguments = "D:\\ProjArtify\\ArtifyCore\\Users\\Yura\\image2.png"
             )
             {
                 ProcessStartInfo start = new ProcessStartInfo();
-                start.FileName = ExecutableLanguage[languageType];//ExecutableLanguage[languageType];
+                start.FileName = @"D:\repo\ARTIFY\ArtifyCore\Environments\Scripts\python.exe";//ExecutableLanguage[languageType];//ExecutableLanguage[languageType];
                 start.Arguments = string.Format("{0} {1}", ExecutableModule[moduleType], additionalArguments);
                 start.UseShellExecute = false;
 
@@ -154,17 +198,20 @@ namespace RuntimeCore
                 Console.WriteLine(111111111111111);
                 using (Process process = Process.Start(start))
                 {
-                    using (StreamReader reader = process.StandardOutput)
-                    {
-                        string result = await reader.ReadToEndAsync();
-                        Console.Write(result);
-                        int res = process.ExitCode;
-                        Console.WriteLine(res);
-                    }
+                    //int res = process.ExitCode;
+                    //Console.WriteLine(res);
+                    await run_serverAsync();
+                    //using (StreamReader reader = process.StandardOutput)
+                    //{
+                    //    string result = await reader.ReadToEndAsync();
+                    //    Console.Write(result);
+                    //    int res = process.ExitCode;
+                    //    Console.WriteLine(res);
+                    //}
                 }
                 Console.WriteLine(111111111111111);
                 
-                //return "234234";
+                return "234234";
 
             }
 
@@ -260,9 +307,7 @@ namespace RuntimeCore
 
 
 
-        //Set + Get Languages
-
-        //
+        
     }
 
 }
