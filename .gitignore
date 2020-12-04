@@ -1,10 +1,8 @@
 bin/
 obj/
-/packages/
+packages/
 riderModule.iml
-/_ReSharper.Caches/
-/.idea/
-Environment/
-modules/
-Users/
+_ReSharper.Caches/
+.idea/
 obj/
+.vs/
