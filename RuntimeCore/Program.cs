@@ -191,7 +191,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
                 "get_build" => JsonSerializer.Serialize(
                     new
                     {
-                        command = "get_build"
+                        command = "get_build" 
                         , START_PARAMS = json.ContainsKey("START_PARAMS") ? json["START_PARAMS"] : null
                     })
                 , _ => JsonSerializer.Serialize(
