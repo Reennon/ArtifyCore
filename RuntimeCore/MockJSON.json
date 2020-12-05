@@ -1,7 +1,19 @@
 ﻿{
   "command": "",
-  "message": "data-storage/Photo/",
-  "arguments": ""
+  /* 
+  // run_module 
+  , run_build in compiler
+  , build in compiler
+  , get_build get compiler
+  , update_executable in compiler
+  // , default_enhance
+  */
+  // "message": "data-storage/Photo/", out of need
+  // "arguments": "" out of need
+  , "Environments" : {
+    "Java" : "C:/Java.exe"
+    , "Python" : "C:/Python.exe"
+  }
 }
 /*
 

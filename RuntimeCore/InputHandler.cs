@@ -17,6 +17,7 @@ namespace RuntimeCore {
         
         static InputHandler()
         {
+            
             _body = new Body();
             _initializer = new Initializer();
             _invokeHandler = new InvokeHandler();
@@ -56,37 +57,13 @@ namespace RuntimeCore {
             
             public void InputOutput(String command)
             {
-                command = command.Replace('\'', '\"');
-                var values = JsonSerializer.Deserialize<Dictionary<String, String>>(command);
-                Console.WriteLine(values?["message"]);
-                
-                var action = values?["command"] switch
-                {
-                    "run_module" 
-                        => _invokeHandler.SwitchInputAction("default_enhance") 
-                           + values?["module_language"] switch
-                           {
-                               "python" => _invokeHandler.SwitchInputAction("python")
-                               , _ => _invokeHandler.SwitchInputAction("default_enhance")
-                           }
-                    , "run_script" 
-                        => _invokeHandler.SwitchInputAction("run_script")
-                    , "build" 
-                        => _invokeHandler.SwitchInputAction("build")
-                    , "get_build" 
-                        => _invokeHandler.SwitchInputAction("get_build")
-                    , "update_executable" 
-                        => _invokeHandler.SwitchInputAction("update_executable")
-                            + values?["language_name"] switch
-                            {
-                                "python" => _invokeHandler.SwitchInputAction("python" + values?["language_executable"])
-                                , _ => _invokeHandler.SwitchInputAction("python" + values?["language_executable"])
-                            }
-                    , _ => _invokeHandler.SwitchInputAction("default_enhance"),
-                };
+                //var values = JsonSerializer.Deserialize<Dictionary<String, String>>(command.Replace('\'', '\"'));
 
-                action();
+                IOHandler<Dispatcher>.TInputInvoke(command.Replace('\'', '\"'));
                 
+                
+
+
                 //     += values?["module_language"] switch
                 // {
                 //     "run_module" => _invokeHandler.SwitchInputAction("default_enhance"),

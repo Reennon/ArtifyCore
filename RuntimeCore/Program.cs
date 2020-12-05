@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
+using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using RuntimeCore;
+using JsonException = System.Text.Json.JsonException;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 
 Dispatcher.GetInstance();
@@ -111,10 +116,20 @@ internal sealed class Dispatcher : ILinkerBaseFields
     {
         public Action SwitchInputAction(String command)
         {
-            return command switch
+            try
             {
-                _ => _body.Start
-            };
+                IOHandler<CompileDispatcher>.TInputInvoke(command);
+            }
+            catch (JsonException e)
+            {
+                Console.WriteLine(e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return (Action) new Object();
         }
 
         public Func<String> SwitchOutputAction(String command)
@@ -128,8 +143,65 @@ internal sealed class Dispatcher : ILinkerBaseFields
 
     public void InputInvoker(String command)
     {
-        var action = _invokeHandler.SwitchInputAction(command);
-        action();
+
+        if (!command.StartsWith('{')) throw new Exception("not a json file");
+
+        var json = JsonConvert.DeserializeObject<Dictionary<String,dynamic>>(command);//.<Dictionary<String, String>>(command);
+
+        //var _json = json as Dictionary<String, dynamic>;
+        
+        if (json!["command"] == "build" || json!["command"]  == "run_build" || json!["command"]  == "update_executable")
+        {
+            IOHandler<CompileDispatcher>.TInputInvoke(json!["command"] switch 
+            {
+                "run_build" => JsonSerializer.Serialize(
+                    new
+                    {
+                        command = "run_build"
+                    })
+                , "build" => JsonSerializer.Serialize(
+                    new
+                    {
+                        command = "build"
+                        , dllName = json["dllName"]
+                        , NECESSARY_DLLS = json.ContainsKey("NECESSARY_DLLS") ? json["NECESSARY_DLLS"] : null
+                        , ASSEMBLY_NAME = json.ContainsKey("ASSEMBLY_NAME") ? json["ASSEMBLY_NAME"] : null
+                        , UNSAFE_CODE = json.ContainsKey("UNSAFE_CODE") && (json["UNSAFE_CODE"]=="true")
+                        , START_PARAMS = json.ContainsKey("START_PARAMS") ? json["START_PARAMS"] : null
+                    })
+                , "update_executable" => JsonSerializer.Serialize(
+                    new
+                    {
+                        command = "update_executable"
+                        , Environments = json["Environments"]
+                        , Modules = json["Modules"].ToString()
+                    })
+                , _ => JsonSerializer.Serialize(
+                    new
+                    {
+                        command = "default_enhance"
+                    })
+            });
+                
+        }
+        else
+        {
+            IOHandler<CompileDispatcher>.TIOutputInvoke(json["command"] switch
+            {
+                "get_build" => JsonSerializer.Serialize(
+                    new
+                    {
+                        command = "get_build"
+                        , START_PARAMS = json.ContainsKey("START_PARAMS") ? json["START_PARAMS"] : null
+                    })
+                , _ => JsonSerializer.Serialize(
+                    new
+                    {
+                        command = "default_enhance"
+                    })
+            });
+        }
+        
     }
 
     public String OutputInvoker(String command)
