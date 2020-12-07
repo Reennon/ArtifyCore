@@ -1,5 +1,5 @@
-RuntimeCore.sln/
-.vs/
+/RuntimeCore.sln/*
+/.vs/*
 bin/
 obj/
 packages/
