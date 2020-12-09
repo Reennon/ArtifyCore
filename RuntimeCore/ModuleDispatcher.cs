@@ -174,7 +174,8 @@ namespace RuntimeCore
                     }
 
                 }
-                await RunModuleAsync();
+                string va1 = await RunModuleAsync();
+                Console.WriteLine(va1);
                 //throw new NotImplementedException();
             }
 
@@ -189,33 +190,23 @@ namespace RuntimeCore
                 string additionalArguments = "D:\\ProjArtify\\ArtifyCore\\Users\\Yura\\image2.png"
             )
             {
+                Task<string> json = run_serverAsync();
                 ProcessStartInfo start = new ProcessStartInfo();
-                start.FileName = @"D:\repo\ARTIFY\ArtifyCore\Environments\Scripts\python.exe";//ExecutableLanguage[languageType];//ExecutableLanguage[languageType];
+                start.FileName = ExecutableLanguage[languageType];//ExecutableLanguage[languageType];
                 start.Arguments = string.Format("{0} {1}", ExecutableModule[moduleType], additionalArguments);
                 start.UseShellExecute = false;
 
                 start.RedirectStandardOutput = true;
                 Console.WriteLine(111111111111111);
-                using (Process process = Process.Start(start))
-                {
-                    //int res = process.ExitCode;
-                    //Console.WriteLine(res);
-                    await run_serverAsync();
-                    //using (StreamReader reader = process.StandardOutput)
-                    //{
-                    //    string result = await reader.ReadToEndAsync();
-                    //    Console.Write(result);
-                    //    int res = process.ExitCode;
-                    //    Console.WriteLine(res);
-                    //}
-                }
-                Console.WriteLine(111111111111111);
+                Process process = Process.Start(start);
                 
-                return "234234";
+                Console.WriteLine(111111111111111);
+                await json;
+                return json.Result;
 
             }
 
-            internal string GetLanguageValue(string key)
+            internal string GetLanguage(string key)
             {
                 return ExecutableLanguage[key];
             }
@@ -223,7 +214,7 @@ namespace RuntimeCore
             {
                 return ExecutableLanguage.Where(x => ExecutableLanguage.Values.Contains(x.Value)).Select(x => x.Key);
             }
-            internal static void SetLanguageValue(string languageName)//, string modulePath)
+            internal static void SetLanguage(string languageName)//, string modulePath)
             {
                 string[] fileEntries = Directory.GetFiles(_body.pathToLanguages);//all file in directory
 
@@ -242,7 +233,7 @@ namespace RuntimeCore
             //
 
             //Set + Get Modules
-            internal static void SetModuleValue(string languageName = "python", string fileName = "main.py")//register module in the dictionary
+            internal static void SetModule(string languageName = "python", string fileName = "main.py")//register module in the dictionary
             {
                 string[] fileEntries = Directory.GetFiles("D:\\ProjArtify\\ArtifyCore\\modules\\" + languageName);//all file in directory
 
