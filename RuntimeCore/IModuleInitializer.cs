@@ -5,14 +5,11 @@ using System.Threading.Tasks;
 
 namespace RuntimeCore
 {
-    
-    
-    
+
+
     public interface IModuleInitializer
     {
-
-        //public void Invoke();
-
+        
 
 
         public void Invoke(String args = "");
@@ -42,7 +39,7 @@ namespace RuntimeCore
         //public void Invoke();
         public void Invoke<T>() where T : new()
         {
-            //if (typeof(T).GetMethod("Invoke(String args)").DeclaringType == typeof(T)) { Invoke<T>(String.Empty); }
+
 
             typeof(T).GetMethods().Where(mi =>
             {
@@ -97,7 +94,6 @@ namespace RuntimeCore
         
     }
 
-    
 
     public interface IInputOutputHandler
     {
@@ -108,19 +104,12 @@ namespace RuntimeCore
     {
         public static void Controller(Action action, Int16 taskDelay = 1000, CancellationToken cancellationToken = new CancellationToken())
         {
-            // new Task(() =>
-            // {
-            //     while (true)
-            //     {
-            //         action();
-            //     }
-            // }).Start();
-            
+
             Task.Run( async () =>
             {
                 while (true)
                 {
-                    //Console.WriteLine(1);
+
                     try
                     {
                         action();
@@ -147,6 +136,10 @@ namespace RuntimeCore
         public void InputInvoker(String command);
 
         public String OutputInvoker(String command);
+
+
+        public void JsonInput(String command, String json){}
+
 
     }
 

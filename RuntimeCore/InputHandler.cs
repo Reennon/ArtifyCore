@@ -17,6 +17,7 @@ namespace RuntimeCore {
         
         static InputHandler()
         {
+
             _body = new Body();
             _initializer = new Initializer();
             _invokeHandler = new InvokeHandler();
@@ -56,6 +57,7 @@ namespace RuntimeCore {
             
             public void InputOutput(String command)
             {
+
                 command = command.Replace('\'', '\"');
                 var values = JsonSerializer.Deserialize<Dictionary<String, String>>(command);
                 Console.WriteLine(values?["message"]);
@@ -87,6 +89,7 @@ namespace RuntimeCore {
 
                 action();
                 
+
                 //     += values?["module_language"] switch
                 // {
                 //     "run_module" => _invokeHandler.SwitchInputAction("default_enhance"),

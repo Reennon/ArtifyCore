@@ -8,15 +8,15 @@ namespace RuntimeCore
         public static readonly Dictionary<Type, ILinkerBaseFields> Modules = new()
         {
             {typeof(Dispatcher), Dispatcher.GetInstance()},
-            {typeof(InputHandler), new InputHandler()},
-            { typeof(ModuleDispatcher), new ModuleDispatcher() }
+            , {typeof(InputHandler), new InputHandler()},
+            , { typeof(ModuleDispatcher), new ModuleDispatcher() }
+            ,{typeof(CompileDispatcher), new CompileDispatcher()}
         };
     }
     
     internal static partial class IOHandler<T>
         where T : ILinkerBaseFields
     {
-        //private static readonly ILinkerBaseFields LinkedTo = typeof(T).;
 
         internal static void TInputInvoke( String command) 
         {
@@ -24,29 +24,25 @@ namespace RuntimeCore
                 .Modules[typeof(T)] is T ? (T) ModuleHandler
                 .Modules[typeof(T)] : default)?.InputInvoker(command);
             
-            // #nullable enable
-            // var method = typeof(T).GetMethod("InputInvoker");
-            // var generic = method?.MakeGenericMethod(typeof(String));
-            // generic?.Invoke(typeof(T), new Object?[] {command});
-            // #nullable disable
+
         }   
-    
-    
-        internal static String TIOutputInvoke(T type, String command) 
+        
+        internal static String TIOutputInvoke(String command) 
+
         {
             return (ModuleHandler
                 .Modules[typeof(T)] is T ? (T) ModuleHandler
                 .Modules[typeof(T)] : default)?.OutputInvoker(command);
-            
-            //return type.OutputInvoker(command);
+
+
+        }
         
-            // #nullable enable
-            //         var method = typeof(T).GetMethod("OutputInvoker");
-            //         var generic = method?.MakeGenericMethod(typeof(String));
-            //         return generic?.Invoke(typeof(T), new Object?[] {command}) as String;
-            // #nullable disable
-        }  
-        
-    
+        internal static void TJsonInvoke(String command, String json)
+        {
+            (ModuleHandler
+                .Modules[typeof(T)] is T ? (T) ModuleHandler
+                .Modules[typeof(T)] : default)?.JsonInput(command, json);
+        }
+
     }
 }
