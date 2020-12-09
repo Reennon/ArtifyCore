@@ -363,7 +363,7 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
     public void InputInvoker(String command)
     {
         var json = JsonConvert.DeserializeObject<Dictionary<String, dynamic>>(command);
-        ;
+        
         switch (json!["command"].ToString())
         {
             case "run_build":

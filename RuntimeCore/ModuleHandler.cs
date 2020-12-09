@@ -7,9 +7,10 @@ namespace RuntimeCore
     {
         public static readonly Dictionary<Type, ILinkerBaseFields> Modules = new()
         {
-            {typeof(Dispatcher), Dispatcher.GetInstance()},
-            {typeof(InputHandler), new InputHandler()}
-            ,{typeof(CompileDispatcher), new CompileDispatcher()}
+            {typeof(Dispatcher), Dispatcher.GetInstance()}
+            , {typeof(InputHandler), new InputHandler()}
+            , {typeof(CompileDispatcher), new CompileDispatcher()}
+            , {typeof(OutputHandler), new OutputHandler()}
         };
     }
     

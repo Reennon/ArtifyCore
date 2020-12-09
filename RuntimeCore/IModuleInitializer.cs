@@ -47,12 +47,10 @@ namespace RuntimeCore
                     return false;
 
                 }
-                if (mi.ReturnType == typeof(void)){
-                    Invoke<T>(String.Empty);
-                    return true;
-                }
 
-                return false;
+                if (mi.ReturnType != typeof(void)) return false;
+                Invoke<T>(String.Empty);
+                return true;
 
             });
         }

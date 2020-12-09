@@ -176,6 +176,14 @@ internal sealed class Dispatcher : ILinkerBaseFields
                         , Environments = json["Environments"]
                         , Modules = json["Modules"].ToString()
                     })
+                , "post_build" => JsonSerializer.Serialize(
+                    new
+                    {
+                        command = "post_build"
+                        , adress = json["ADDRESS"] 
+                        , mediaType = json["MEDIA_TYPE"]
+                        , configureAwait = json["CONFIGURE_AWAIT"]
+                    })
                 , _ => JsonSerializer.Serialize(
                     new
                     {
