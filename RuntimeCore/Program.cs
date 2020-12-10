@@ -147,10 +147,13 @@ internal sealed class Dispatcher : ILinkerBaseFields
         if (!command.StartsWith('{')) throw new Exception("not a json file");
 
         var json = JsonConvert.DeserializeObject<Dictionary<String,dynamic>>(command);//.<Dictionary<String, String>>(command);
-
-        //var _json = json as Dictionary<String, dynamic>;
         
-        if (json!["command"] == "build" || json!["command"]  == "run_build" || json!["command"]  == "update_executable")
+        /*
+         * !!! Compile Dispatcher's routes !!!
+         */
+        if (json!["command"] == "build" 
+            || json!["command"]  == "run_build" 
+            || json!["command"]  == "update_executable")
         {
             IOHandler<CompileDispatcher>.TInputInvoke(json!["command"] switch 
             {
@@ -158,11 +161,13 @@ internal sealed class Dispatcher : ILinkerBaseFields
                     new
                     {
                         command = "run_build"
+                        , userId = json["userId"]
                     })
                 , "build" => JsonSerializer.Serialize(
                     new
                     {
                         command = "build"
+                        , userId = json["userId"]
                         , dllName = json["dllName"]
                         , NECESSARY_DLLS = json.ContainsKey("NECESSARY_DLLS") ? json["NECESSARY_DLLS"] : null
                         , ASSEMBLY_NAME = json.ContainsKey("ASSEMBLY_NAME") ? json["ASSEMBLY_NAME"] : null
@@ -173,6 +178,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
                     new
                     {
                         command = "update_executable"
+                        , userId = json["userId"]
                         , Environments = json["Environments"]
                         , Modules = json["Modules"].ToString()
                     })
@@ -180,6 +186,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
                     new
                     {
                         command = "post_build"
+                        , userId = json["userId"]
                         , adress = json["ADDRESS"] 
                         , mediaType = json["MEDIA_TYPE"]
                         , configureAwait = json["CONFIGURE_AWAIT"]
@@ -191,6 +198,44 @@ internal sealed class Dispatcher : ILinkerBaseFields
                     })
             });
                 
+        }
+        
+        /*
+         *  !!! Output Handler's routes !!!
+         */
+        else if (json!["command"] == "return_build"
+                 || json["command"] == "return_error")
+        {
+            IOHandler<OutputHandler>.TInputInvoke(json!["command"] switch
+            {
+                "return_build" => JsonSerializer.Serialize( new
+                {
+                    command = "post_build"
+                    , data = json["data"]
+                    , userId = json["userId"]
+                    , ADDRESS = json["ADDRESS"]
+                    , MEDIA_TYPE = json["MEDIA_TYPE"]
+                    , CONFIGURE_AWAIT = json["CONFIGURE_AWAIT"]
+                })
+                , "return_error" => JsonSerializer.Serialize( new
+                {
+                    command = "post_error"
+                    , errorMessage = json["data"]
+                    , userId = json["userId"]
+                    , ADDRESS = json["ADDRESS"]
+                    , MEDIA_TYPE = json["MEDIA_TYPE"]
+                    , CONFIGURE_AWAIT = json["CONFIGURE_AWAIT"]
+                })
+                , _ => JsonSerializer.Serialize( new
+                {
+                    command = "post_error"
+                    , errorMessage = new
+                    {
+                        data = "JSON inner core unparsed exception"
+                        , errorCode = 0
+                    }
+                })
+            });
         }
         else
         {

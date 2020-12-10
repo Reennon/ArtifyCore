@@ -87,9 +87,10 @@ namespace RuntimeCore {
 
             public async Task<HttpResponseMessage> PostBuildAsync(
                 String data
+                , String userId = "user"
                 // ReSharper disable once StringLiteralTypo
                 // ReSharper disable once InconsistentNaming
-                , String ADDRESS = "http://127.0.0.1:5000/Artify/new"
+                , String ADDRESS = "http://127.0.0.1:5000/Artify/new/"
                 // ReSharper disable once InconsistentNaming
                 , String MEDIA_TYPE = "json"
                 // ReSharper disable once InconsistentNaming
@@ -97,12 +98,44 @@ namespace RuntimeCore {
             {
                 return await Client.SendAsync(new HttpRequestMessage()
                 {
-                    Method = HttpMethod.Post, RequestUri = new Uri(ADDRESS),
+                    Method = HttpMethod.Post, RequestUri = new Uri(ADDRESS+userId),
                     Content = new StringContent(data, Encoding.UTF8, MEDIA_TYPE)
                 }).ConfigureAwait(CONFIGURE_AWAIT);
             }
 
+            public async Task<HttpResponseMessage> PostErrorAsync(String data
+                , String userId = "user"
+                // ReSharper disable once StringLiteralTypo
+                // ReSharper disable once InconsistentNaming
+                , String ADDRESS = "http://127.0.0.1:5000/Artify/error/"
+                // ReSharper disable once InconsistentNaming
+                , String MEDIA_TYPE = "json"
+                // ReSharper disable once InconsistentNaming
+                , Boolean CONFIGURE_AWAIT = false)
+            {
+                return await Client.SendAsync(new HttpRequestMessage()
+                {
+                    Method = HttpMethod.Post, RequestUri = new Uri(ADDRESS+userId),
+                    Content = new StringContent(data, Encoding.UTF8, MEDIA_TYPE)
+                }).ConfigureAwait(CONFIGURE_AWAIT);
+            }
 
+            public async Task<HttpResponseMessage> WarnDependencyException(String value
+                , String userId = "user"
+                // ReSharper disable once StringLiteralTypo
+                // ReSharper disable once InconsistentNaming
+                , String ADDRESS = "http://127.0.0.1:5000/Artify/new/"
+                // ReSharper disable once InconsistentNaming
+                , String MEDIA_TYPE = "json"
+                // ReSharper disable once InconsistentNaming
+                , Boolean CONFIGURE_AWAIT = false)
+            {
+                return await Client.SendAsync(new HttpRequestMessage()
+                {
+                    Method = HttpMethod.Get, RequestUri = new Uri(ADDRESS+userId),
+                    Content = new StringContent(value, Encoding.UTF8, MEDIA_TYPE)
+                }).ConfigureAwait(CONFIGURE_AWAIT);
+            }
             
 
         }
@@ -137,7 +170,17 @@ namespace RuntimeCore {
                 case "post_build":
                 {
                     Console.WriteLine(_body.PostBuildAsync(json["data"]
-                        ,json["ADDRESS"] 
+                        , json["userId"]
+                        , json["ADDRESS"] 
+                        , json["MEDIA_TYPE"]
+                        , json["CONFIGURE_AWAIT"]));
+                    break;
+                }
+                case "post_error":
+                {
+                    Console.WriteLine(_body.PostErrorAsync(json["errorMessage"]
+                        , json["userId"]
+                        , json["ADDRESS"] 
                         , json["MEDIA_TYPE"]
                         , json["CONFIGURE_AWAIT"]));
                     break;
@@ -157,10 +200,9 @@ namespace RuntimeCore {
             {
                 case "warn_dependency_exception":
                 {
-                    _body.RunBuild(json["START_PARAMS"]);
+                    _body.WarnDependencyException(json["value"]);
                     break;
                 }
-
             }
             
             var func = _invokeHandler.SwitchOutputAction(command);
