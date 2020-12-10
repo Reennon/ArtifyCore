@@ -10,11 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-//<<<<<<< HEAD:ModuleDispatcher.cs
+
 
 
 namespace RuntimeCore
-//>>>>>>> 835c943e39cec906ccddd1c26c383741ba55eca2:RuntimeCore/ModuleDispatcher.cs
+
 {
     internal class ModuleDispatcher : ILinkerBaseFields
     {
@@ -63,7 +63,7 @@ namespace RuntimeCore
 
             private static readonly Dictionary<string, string> ExecutableModule = new Dictionary<string, string>();
 
-            //private readonly string _pathToModules;
+            
 
             public void InputOutput(String command)
             {
@@ -75,7 +75,7 @@ namespace RuntimeCore
             {
 
             }
-            private static async Task<string> run_serverAsync()
+            private static async Task<string> RunServerAsync()
             {
                 // Open the named pipe.
                 var server = new NamedPipeServerStream("NPtes");
@@ -86,7 +86,7 @@ namespace RuntimeCore
                 
                 Console.WriteLine("Connected.");
                 var br = new BinaryReader(server);
-                //var bw = new BinaryWriter(server);
+               
                 string json = null;
                 while (true)
                 {
@@ -96,7 +96,7 @@ namespace RuntimeCore
                       
                         json = new string(br.ReadChars(len));    // Read string
 
-                        Console.WriteLine(json);
+                        //Console.WriteLine(json);
 
                         //json = new string(json.Reverse().ToArray());  // Just for fun
 
@@ -123,13 +123,12 @@ namespace RuntimeCore
                 string path = @"InitializeDispatcherModule.txt";
                 string json = null;
                 string path2 = Directory.GetCurrentDirectory();
-                //string path1 = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Data\Names.txt");
-                //string[] files = File.ReadAllLines(path1);
+                
                 try
                 {
                     using (StreamReader sr = new StreamReader(path))
                     {
-                        //Console.WriteLine(sr.ReadToEnd());
+                       
                         json = sr.ReadToEnd();
                     }
 
@@ -143,7 +142,7 @@ namespace RuntimeCore
                 Console.WriteLine(o.ToString());
                 pathToLanguages = Convert.ToString(o["Environments"]);
                 pathToModules = Convert.ToString(o["Modules"]);
-                //string[] fileEntries1 = Directory.GetFiles("D:\\ProjArtify\\ArtifyCore\\Environments");//all file in directory
+                
                 string[] fileEntries1 = Directory.GetFiles(_body.pathToLanguages);//all file in directory
                 string result; 
                 foreach (string file in fileEntries1)
@@ -173,9 +172,9 @@ namespace RuntimeCore
                     }
 
                 }
-                string va1 = await RunModuleAsync();
-                Console.WriteLine(va1);
-                //throw new NotImplementedException();
+                await RunModuleAsync();
+                
+                
             }
 
             public String GetStr() => base.ToString();
@@ -189,19 +188,19 @@ namespace RuntimeCore
                 string additionalArguments = "D:\\ProjArtify\\ArtifyCore\\Users\\Yura\\image2.png"
             )
             {
-                Task<string> json = run_serverAsync();
+                Task<string> json = RunServerAsync();
                 ProcessStartInfo start = new ProcessStartInfo();
-                start.FileName = ExecutableLanguage[languageType];//ExecutableLanguage[languageType];
+                start.FileName = ExecutableLanguage[languageType];
                 start.Arguments = string.Format("{0} {1}", ExecutableModule[moduleType], additionalArguments);
                 start.UseShellExecute = false;
 
                 start.RedirectStandardOutput = true;
-                Console.WriteLine(111111111111111);
+               
                 Process process = Process.Start(start);
                 
-                Console.WriteLine(111111111111111);
-                await json;
-                return json.Result;
+                
+                
+                return await json;
 
             }
 
@@ -213,7 +212,7 @@ namespace RuntimeCore
             {
                 return ExecutableLanguage.Where(x => ExecutableLanguage.Values.Contains(x.Value)).Select(x => x.Key);
             }
-            internal static void SetLanguage(string languageName)//, string modulePath)
+            internal static void SetLanguage(string languageName)
             {
                 string[] fileEntries = Directory.GetFiles(_body.pathToLanguages);//all file in directory
 
