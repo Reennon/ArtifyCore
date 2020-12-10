@@ -18,7 +18,7 @@ namespace RuntimeCore
 {
     internal class ModuleDispatcher : ILinkerBaseFields
     {
-
+        internal static bool runModule = false;
         private static readonly ModuleDispatcher.Body _body;
         private static readonly ModuleDispatcher.Initializer _initializer;
         private static readonly ModuleDispatcher.InvokeHandler _invokeHandler;
@@ -49,8 +49,7 @@ namespace RuntimeCore
             public void Invoke(String runArgument = null)
             {
                 _body.Start();
-               
-                
+
             }
             public void Invoke() => Invoke(String.Empty);
         }
@@ -76,7 +75,7 @@ namespace RuntimeCore
             {
 
             }
-            static async Task<string> run_serverAsync()
+            private static async Task<string> run_serverAsync()
             {
                 // Open the named pipe.
                 var server = new NamedPipeServerStream("NPtes");

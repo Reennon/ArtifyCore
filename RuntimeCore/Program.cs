@@ -12,8 +12,9 @@ using RuntimeCore;
 using JsonException = System.Text.Json.JsonException;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-
+ModuleDispatcher.runModule = true;
 Dispatcher.GetInstance();
+
 Console.ReadKey();
 
 
