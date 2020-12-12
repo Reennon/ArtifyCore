@@ -118,7 +118,7 @@ namespace RuntimeCore
                 return json;
             }
 
-            public async void Start()
+            public void Start()
             {
                 string path = @"InitializeDispatcherModule.txt";
                 string json = null;
@@ -172,7 +172,7 @@ namespace RuntimeCore
                     }
 
                 }
-                await RunModuleAsync();
+                
 
                 
             }
