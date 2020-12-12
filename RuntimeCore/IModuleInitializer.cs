@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 namespace RuntimeCore
 {
 
+
     public interface IModuleInitializer
     {
         
+
 
         public void Invoke(String args = "");
         public void Invoke();
@@ -37,6 +39,7 @@ namespace RuntimeCore
         //public void Invoke();
         public void Invoke<T>() where T : new()
         {
+
 
             typeof(T).GetMethods().Where(mi =>
             {
@@ -91,6 +94,7 @@ namespace RuntimeCore
         
     }
 
+
     public interface IInputOutputHandler
     {
         //public void Invoke(String ip);
@@ -105,6 +109,7 @@ namespace RuntimeCore
             {
                 while (true)
                 {
+
                     try
                     {
                         action();
@@ -132,7 +137,9 @@ namespace RuntimeCore
 
         public String OutputInvoker(String command);
 
+
         public void JsonInput(String command, String json){}
+
 
     }
 

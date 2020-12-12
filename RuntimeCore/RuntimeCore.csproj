@@ -6,6 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    
+
+
       <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
       <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
@@ -13,5 +18,6 @@
     <ItemGroup>
       <Folder Include="Resources" />
     </ItemGroup>
+
 
 </Project>
