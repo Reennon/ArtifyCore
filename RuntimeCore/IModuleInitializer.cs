@@ -96,7 +96,7 @@ namespace RuntimeCore
     
     public interface IModuleBody
     {
-        public static void Controller(Action action, Int16 taskDelay = 1000, CancellationToken cancellationToken = new CancellationToken())
+        public static void Controller(Action action, Int16 taskDelay = 0, CancellationToken cancellationToken = new CancellationToken())
         {
 
             Task.Run( async () =>

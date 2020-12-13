@@ -92,15 +92,18 @@ namespace RuntimeCore {
                 // ReSharper disable once InconsistentNaming
                 , String ADDRESS = "http://127.0.0.1:5000/Artify/new/"
                 // ReSharper disable once InconsistentNaming
-                , String MEDIA_TYPE = "json"
+                , String MEDIA_TYPE = "application/json"
                 // ReSharper disable once InconsistentNaming
-                , Boolean CONFIGURE_AWAIT = false)
+                , Boolean? CONFIGURE_AWAIT = false)
             {
+                ADDRESS ??= "http://127.0.0.1:5000/Artify/new/";
+                MEDIA_TYPE ??= "application/json";
+                CONFIGURE_AWAIT ??= false;
                 return await Client.SendAsync(new HttpRequestMessage()
                 {
                     Method = HttpMethod.Post, RequestUri = new Uri(ADDRESS+userId),
                     Content = new StringContent(data, Encoding.UTF8, MEDIA_TYPE)
-                }).ConfigureAwait(CONFIGURE_AWAIT);
+                }).ConfigureAwait(CONFIGURE_AWAIT.Value);
             }
 
             public async Task<HttpResponseMessage> PostErrorAsync(String data
@@ -111,13 +114,16 @@ namespace RuntimeCore {
                 // ReSharper disable once InconsistentNaming
                 , String MEDIA_TYPE = "json"
                 // ReSharper disable once InconsistentNaming
-                , Boolean CONFIGURE_AWAIT = false)
+                , Boolean? CONFIGURE_AWAIT = false)
             {
+                ADDRESS ??= "http://127.0.0.1:5000/Artify/new/";
+                MEDIA_TYPE ??= "application/json";
+                CONFIGURE_AWAIT ??= false;
                 return await Client.SendAsync(new HttpRequestMessage()
                 {
                     Method = HttpMethod.Post, RequestUri = new Uri(ADDRESS+userId),
                     Content = new StringContent(data, Encoding.UTF8, MEDIA_TYPE)
-                }).ConfigureAwait(CONFIGURE_AWAIT);
+                }).ConfigureAwait(CONFIGURE_AWAIT.Value);
             }
 
             public async Task<HttpResponseMessage> WarnDependencyException(String value
@@ -128,13 +134,16 @@ namespace RuntimeCore {
                 // ReSharper disable once InconsistentNaming
                 , String MEDIA_TYPE = "json"
                 // ReSharper disable once InconsistentNaming
-                , Boolean CONFIGURE_AWAIT = false)
+                , Boolean? CONFIGURE_AWAIT = false)
             {
+                ADDRESS ??= "http://127.0.0.1:5000/Artify/new/";
+                MEDIA_TYPE ??= "application/json";
+                CONFIGURE_AWAIT ??= false;
                 return await Client.SendAsync(new HttpRequestMessage()
                 {
                     Method = HttpMethod.Get, RequestUri = new Uri(ADDRESS+userId),
                     Content = new StringContent(value, Encoding.UTF8, MEDIA_TYPE)
-                }).ConfigureAwait(CONFIGURE_AWAIT);
+                }).ConfigureAwait(CONFIGURE_AWAIT.Value);
             }
             
 
@@ -167,13 +176,17 @@ namespace RuntimeCore {
 
             switch (json!["command"].ToString())
             {
+                
                 case "post_build":
                 {
+                    Console.WriteLine(json["userId"]+"---------------------------");
                     Console.WriteLine(_body.PostBuildAsync(json["data"]
                         , json["userId"]
                         , json["ADDRESS"] 
                         , json["MEDIA_TYPE"]
-                        , json["CONFIGURE_AWAIT"]));
+                        , json["CONFIGURE_AWAIT"]).Result+(DateTime.Now.Date + DateTime.Now.TimeOfDay + DateTime.Now.Millisecond.ToString() + "_Assembly")
+                        .Replace(' ', '_').Replace(',', '_').Replace('.', '_').Replace(':', '_')
+                    );
                     break;
                 }
                 case "post_error":
@@ -182,7 +195,7 @@ namespace RuntimeCore {
                         , json["userId"]
                         , json["ADDRESS"] 
                         , json["MEDIA_TYPE"]
-                        , json["CONFIGURE_AWAIT"]));
+                        , json["CONFIGURE_AWAIT"]).Result);
                     break;
                 }
             }

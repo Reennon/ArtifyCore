@@ -146,7 +146,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
 
         if (!command.StartsWith('{')) throw new Exception("not a json file");
 
-        var json = JsonConvert.DeserializeObject<Dictionary<String,dynamic>>(command);//.<Dictionary<String, String>>(command);
+        var json = JsonConvert.DeserializeObject<Dictionary<String,dynamic>>(command);
         
         /*
          * !!! Compile Dispatcher's routes !!!
@@ -169,10 +169,9 @@ internal sealed class Dispatcher : ILinkerBaseFields
                         command = "build"
                         , userId = json["userId"]
                         , dllName = json["dllName"]
-                        , NECESSARY_DLLS = json.ContainsKey("NECESSARY_DLLS") ? json["NECESSARY_DLLS"] : null
-                        , ASSEMBLY_NAME = json.ContainsKey("ASSEMBLY_NAME") ? json["ASSEMBLY_NAME"] : null
-                        , UNSAFE_CODE = json.ContainsKey("UNSAFE_CODE") && (json["UNSAFE_CODE"]=="true")
-                        , START_PARAMS = json.ContainsKey("START_PARAMS") ? json["START_PARAMS"] : null
+                        , NECESSARY_DLLS = json["NECESSARY_DLLS"]
+                        , ASSEMBLY_NAME = json["ASSEMBLY_NAME"]
+                        , UNSAFE_CODE = json["UNSAFE_CODE"]
                     })
                 , "update_executable" => JsonSerializer.Serialize(
                     new
@@ -199,6 +198,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
             });
                 
         }
+
         
         /*
          *  !!! Output Handler's routes !!!
@@ -213,18 +213,18 @@ internal sealed class Dispatcher : ILinkerBaseFields
                     command = "post_build"
                     , data = json["data"]
                     , userId = json["userId"]
-                    , ADDRESS = json["ADDRESS"]
-                    , MEDIA_TYPE = json["MEDIA_TYPE"]
-                    , CONFIGURE_AWAIT = json["CONFIGURE_AWAIT"]
+                    , ADDRESS = json.ContainsKey("ADDRESS")? json["ADDRESS"] : null
+                    , MEDIA_TYPE = json.ContainsKey("MEDIA_TYPE")? json["MEDIA_TYPE"] : null
+                    , CONFIGURE_AWAIT = json.ContainsKey("CONFIGURE_AWAIT")? json["CONFIGURE_AWAIT"] : null
                 })
                 , "return_error" => JsonSerializer.Serialize( new
                 {
                     command = "post_error"
                     , errorMessage = json["data"]
                     , userId = json["userId"]
-                    , ADDRESS = json["ADDRESS"]
-                    , MEDIA_TYPE = json["MEDIA_TYPE"]
-                    , CONFIGURE_AWAIT = json["CONFIGURE_AWAIT"]
+                    , ADDRESS = json.ContainsKey("ADDRESS")? json["ADDRESS"] : null
+                    , MEDIA_TYPE = json.ContainsKey("MEDIA_TYPE")? json["MEDIA_TYPE"] : null
+                    , CONFIGURE_AWAIT = json.ContainsKey("CONFIGURE_AWAIT")? json["CONFIGURE_AWAIT"] : null
                 })
                 , _ => JsonSerializer.Serialize( new
                 {

@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
@@ -113,10 +115,14 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
             lastBuild.Item2;
 
 
-        private void CopyNotCsFiles()
+        private void CopyNotCsFiles(String userId)
         {
-            CopyFolder(new DirectoryInfo(@"..\..\..\..\Resources"), Directory.CreateDirectory(@"Release\Resources"));
-            CopyFolder(new DirectoryInfo(@"..\..\..\..\Modules"), Directory.CreateDirectory(@"Release\Modules"));
+            CopyFolder(
+                new DirectoryInfo(@"..\..\..\..\Resources").Exists
+                    ? new DirectoryInfo(@"..\..\..\..\Resources")
+                    : Directory.CreateDirectory(@"..\..\..\..\Resources"),
+                Directory.CreateDirectory(@$"Release\{userId}\Resources"));
+            //CopyFolder(new DirectoryInfo(@"..\..\..\..\Modules"), Directory.CreateDirectory(@"Release\Modules"));
 
             static void CopyFolder(DirectoryInfo source, DirectoryInfo target) {
                 Array.ForEach(source.GetDirectories()
@@ -136,7 +142,9 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
             , Boolean UNSAFE_CODE = false
             // ReSharper disable once InconsistentNaming
             // ReSharper disable once RedundantAssignment
-            , Object START_PARAMS = null)
+            //, Object START_PARAMS = null
+            //
+            )
         {
             var script = String.Empty;
             Array.ForEach(
@@ -154,24 +162,22 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
                 , NECESSARY_DLLS
                 , ASSEMBLY_NAME
                 , UNSAFE_CODE
-                , START_PARAMS
+                //, START_PARAMS
             );
         }
         
         public async Task<String> RunRecompilationAsync(String dllName
+            , String userId
             // ReSharper disable once InconsistentNaming
             , List<String> NECESSARY_DLLS = null
             // ReSharper disable once InconsistentNaming
             , String ASSEMBLY_NAME = "assemblyName"
             // ReSharper disable once InconsistentNaming
             , Boolean UNSAFE_CODE = false
-            // ReSharper disable once InconsistentNaming
-            // ReSharper disable once RedundantAssignment
-            , Object START_PARAMS = null
-            , String userId = "user")
+        )
         {
             var script = String.Empty;
-            Console.WriteLine(ASSEMBLY_NAME);
+            //Console.WriteLine(ASSEMBLY_NAME);
             Array.ForEach(
                 new DirectoryInfo(@"..\..\..\..\Scripts")
                     .GetFiles("*.cs")
@@ -190,7 +196,6 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
                     , NECESSARY_DLLS
                     , ASSEMBLY_NAME
                     , UNSAFE_CODE
-                    , START_PARAMS
                 );
             });
             task.Start();
@@ -200,17 +205,19 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
         
         
         // !!! BE AWARE TO RUN IN SEPARATE THREAD !!!
-        private String RecompileScript(String script, String dllName, String userId = "user"
+        private String RecompileScript(String script, String dllName
+            , String userId = "user"
             // ReSharper disable once InconsistentNaming
             , List<String> NECESSARY_DLLS = null
             // ReSharper disable once InconsistentNaming
             , String ASSEMBLY_NAME = "assemblyName"
             // ReSharper disable once InconsistentNaming
             , Boolean UNSAFE_CODE = false
-            // ReSharper disable once InconsistentNaming
-            // ReSharper disable once RedundantAssignment
-            , Object START_PARAMS = null)
+        )
         {
+            Console.WriteLine((DateTime.Now.Date + DateTime.Now.TimeOfDay + DateTime.Now.Millisecond.ToString() + "_Assembly")
+                .Replace(' ', '_').Replace(',', '_').Replace('.', '_').Replace(':', '_') + userId +"start recompile");
+            
             NECESSARY_DLLS ??= new List<String>()
                 {"System.Private.CoreLib", "System.Console", "System.Runtime", "mscorlib"};
             // ReSharper disable once InconsistentNaming
@@ -220,7 +227,7 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
             var NAMESPACES = new List<String>() { };
             
             
-            START_PARAMS = new Object[] {new[] {"arg1", "arg2", "etc"}};
+            //START_PARAMS = new Object[] {new[] {"arg1", "arg2", "etc"}};
             //Console.WriteLine(script);
             var syntaxTree = CSharpSyntaxTree.ParseText(script);
 
@@ -297,8 +304,9 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
 
             using var ms = new MemoryStream();
             ms.Flush();
+            Console.WriteLine(3);
             var result = compilation.Emit(ms);
-
+            
             if (!result.Success)
             {
                 var failures = result.Diagnostics.Where(diagnostic =>
@@ -312,21 +320,30 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
             {
                 ms.Seek(0, SeekOrigin.Begin);
                 var context = AssemblyLoadContext.Default;
-                var assembly = context.LoadFromStream(ms);
-                
+                /*var assembly = context.LoadFromStream(ms);
                 #nullable enable
                 Console.WriteLine(assembly
                     .EntryPoint?
                     .Invoke(
                         null
-                        ,(Object?[]?) START_PARAMS));
+                        ,(Object?[]?) START_PARAMS));*/
                 #nullable disable
+                
+                
+                /*var assembly =
+                    context.LoadFromStream(new FileStream($@"Release\{userId}\{dllName}.dll", FileMode.Open));
+                Console.WriteLine(assembly
+                    .EntryPoint?
+                    .Invoke(
+                        null
+                        ,(Object?[]?) START_PARAMS));*/
+                
+                Console.WriteLine("Compilation Successful");
                 Directory.CreateDirectory("Release");
                 Directory.CreateDirectory(@$"Release\{userId}");
                 File.WriteAllBytes($@"Release\{userId}\{dllName}.dll", ms.ToArray());
-                
-                CopyNotCsFiles();
-                CreateJSONRuntimeConfig($@"{userId}\{dllName}.runtimeConfig", ASSEMBLY_NAME);
+                CopyNotCsFiles(userId);
+                CreateJSONRuntimeConfig($@"Release\{userId}\{dllName}.runtimeConfig", ASSEMBLY_NAME);
                 return JsonSerializer.Serialize(
                     new
                     {
@@ -337,7 +354,6 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
                     });
                 //return ($@"{userId}\{dllName}.dll", CreateJSONRuntimeConfig($@"{userId}\{dllName}.runtimeConfig", ASSEMBLY_NAME));
             }
-
             return JsonSerializer.Serialize(
                 new
                 {
@@ -347,22 +363,22 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
                     , userId
                 });
 
-            String CreateJSONRuntimeConfig(String name, String assemblyName
+            String CreateJSONRuntimeConfig(String path, String assemblyName
                 , String frameworkName = "Microsoft.NETCore.App"
                 , String version = "5.0.0")
             {
-                using var sw = new StreamWriter($@"Release\{name}.json");
+                using var sw = new StreamWriter($@"{path}.json");
                 sw.Write("" +
                          "{" +
-                            "\"runtimeOptions\": {" +
-                               "\"tfm\":"+'\"' +assemblyName +'\"' +
-                               ",\"framework\": {" +
-                                   "\"name\": "+'\"'+frameworkName+'\"'+
-                                   ",\"version\": "+'\"'+ version +'\"'+
-                               "}" +
-                            "} " +
+                         "\"runtimeOptions\": {" +
+                         "\"tfm\":"+'\"' +assemblyName +'\"' +
+                         ",\"framework\": {" +
+                         "\"name\": "+'\"'+frameworkName+'\"'+
+                         ",\"version\": "+'\"'+ version +'\"'+
+                         "}" +
+                         "} " +
                          "}");
-                return $"{name}.json";
+                return $"{path}.json";
             }
         }
     }
@@ -398,52 +414,34 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
             }
             case "build":
             {
+                /*var userId = json["userId"].ToString() as String;
+                _body.RunRecompilationAsync(json["dllName"]
+                    , userId
+                    , json["NECESSARY_DLLS"]
+                    , json["ASSEMBLY_NAME"] ??=
+                        (DateTime.Now.Date + DateTime.Now.TimeOfDay + DateTime.Now.Millisecond.ToString() + "_Assembly")
+                        .Replace(' ', '_').Replace(',', '_').Replace('.', '_').Replace(':', '_')
+                    , json["UNSAFE_CODE"]
+                );
+                */
                 OutputInvoker(
-                    JsonSerializer.Serialize(
+                    JsonConvert.SerializeObject(
                         new
                         {
                             to = "Dispatcher"
                             , command = "return_build"
-                            , value = _body.RunRecompilationAsync(json["dllName"]
-                                , json["userId"]
-                                , json["NECESSARY_DLLS"]?.Split(' ').ToList()
-                                , json["ASSEMBLY_NAME"] ??= (DateTime.Now.Date+DateTime.Now.TimeOfDay+DateTime.Now.Millisecond.ToString()+"_Assembly").Replace(' ','_').Replace(',', '_').Replace('.','_').Replace(':','_')
-                                , json["UNSAFE_CODE"]
-                                , json["START_PARAMS"]?.Split(' ').ToList<Object>())
+                            , value = _body.RunRecompilationAsync( json["dllName"]
+                                , json["userId"].ToString() as String
+                                , json["NECESSARY_DLLS"]
+                                , json["ASSEMBLY_NAME"] ??=
+                                    (DateTime.Now.Date + DateTime.Now.TimeOfDay + DateTime.Now.Millisecond.ToString() + "_Assembly")
+                                    .Replace(' ', '_').Replace(',', '_').Replace('.', '_').Replace(':', '_')
+                                , json["UNSAFE_CODE"]).Result
+                                
                         }));
                 break;
             }
-            case "return_build":
-            {
-                //var json = JsonConvert.DeserializeObject<Dictionary<String,dynamic>>(command);
-                IOHandler<Dispatcher>.TInputInvoke(json["command"] switch
-                {
-                    "return_build" => json["result"] switch
-                    {
-                        "Success" => JsonSerializer.Serialize(
-                            new
-                            {
-                                command = "return_build"
-                                , data = json["value"]
-                                , userId = json["userId"]
-                            })
-                        , "Failure" => JsonSerializer.Serialize(
-                            new
-                            {
-                                command = "return_error"
-                                , errorMessage = json["value"]
-                                , userId = json["userId"]
-                            })
-                        , _ => JsonSerializer.Serialize(
-                            new
-                            {
-                                command = "_"
-                            })
-                    }   
-                    , _ => throw new NotImplementedException()
-                });
-                break;
-            }
+            
             case "update_executable":
             {
                 _body.UpdateExecutable(json["language_exe"]);
@@ -463,7 +461,40 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
     public String OutputInvoker(String command)
     {
         //if(command.StartsWith("{"))
-            return _invokeHandler.SwitchOutputAction(command).Invoke();
+        var json = JsonConvert.DeserializeObject<Dictionary<String, dynamic>>(command);
+        var value = JsonConvert.DeserializeObject<Dictionary<String, dynamic>>(json["value"]);
+        switch(json!["command"].ToString()){
+            case "return_build":
+            {
+                //var json = JsonConvert.DeserializeObject<Dictionary<String,dynamic>>(command);
+                IOHandler<Dispatcher>.TInputInvoke(
+                    value["result"] switch
+                    {
+                        "Success" => JsonSerializer.Serialize(
+                            new
+                            {
+                                command = "return_build", data = value["value"], userId = value["userId"]
+                            }),
+                        "Failure" => JsonSerializer.Serialize(
+                            new
+                            {
+                                command = "return_error", errorMessage = value["value"], userId = value["userId"]
+                            }),
+                        _ => JsonSerializer.Serialize(
+                            new
+                            {
+                                command = "_"
+                            })
+                    });
+                break;
+            };
+            default:
+            {
+                Console.WriteLine(value!["result"].ToString());
+                throw new Exception($"{json["command"]} is not an input command");
+            }
+        }
+        return String.Empty;
         
         
     }

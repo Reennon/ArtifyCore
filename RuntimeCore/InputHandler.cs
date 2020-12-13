@@ -4,6 +4,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RuntimeCore {
 
@@ -52,95 +54,44 @@ namespace RuntimeCore {
             private readonly IPEndPoint _ipPoint = new (IPAddress.Parse("127.0.0.1"), Port);
 
             // create socket
-            private readonly Socket _listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            private readonly Socket _listenSocket = new (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             
             
-            public void InputOutput(String command)
+            private void InputOutput(String command)
             {
-                //var values = JsonSerializer.Deserialize<Dictionary<String, String>>(command.Replace('\'', '\"'));
+                new Task(() => { IOHandler<Dispatcher>.TInputInvoke(command.Replace('\'', '\"')); }).Start();
 
-                IOHandler<Dispatcher>.TInputInvoke(command.Replace('\'', '\"'));
-                
-                
-
-
-                //     += values?["module_language"] switch
-                // {
-                //     "run_module" => _invokeHandler.SwitchInputAction("default_enhance"),
-                //     "run_script" => _invokeHandler.SwitchInputAction("default_enhance"), 
-                //     "build_script" => _invokeHandler.SwitchInputAction("default_enhance"),
-                //     "get_build" => _invokeHandler.SwitchInputAction("default_enhance"),
-                //     "update_executable" => _invokeHandler.SwitchInputAction("default_enhance"),
-                //     "default_enhance" => _invokeHandler.SwitchInputAction("default_enhance"),
-                //     _ => _invokeHandler.SwitchInputAction("default_enhance"),
-                // };
-
-                //Console.WriteLine($"-----------------{command}----------------------------------------");
             }
 
             public void Update()
             {
-                Console.WriteLine(3);
-                //InputOutput("");
-                
-                //Console.WriteLine(Port.ToString());
-                //InputOutput(String.Empty);
+                Console.WriteLine("New Update Cycle");
+
                 var handler = _listenSocket.Accept();
                 
-                // get message
                 var builder = new StringBuilder();
                 
-                // message's bytes
-                
-                
-                // buffer
-                var data = new Byte[1024];
+                var data = new Byte[512];
                 
                 do
                 {
                     var bytes = handler.Receive(data);
                     builder.Append(Encoding.UTF8.GetString(data, 0, bytes));
                 } while (handler.Available > 0);
-                //
-                //
+
                 InputOutput(builder.ToString());
-                // // send response
-                // var message = "your message has been sent";
-                // data = Encoding.Unicode.GetBytes(message);
-                // handler.Send(data);
-                //
-                
-                // // close socket
-                // handler.Shutdown(SocketShutdown.Both);
-                // handler.Close();
             }
             
             public void Start()
             {
                 Console.WriteLine($"{base.ToString()} has started!");
                 _listenSocket.Bind(_ipPoint);
-                
-                // start to listen the socket
-                
+
                 _listenSocket.Listen(10);
-                
-                // try
-                // {
-                //     var handler = _listenSocket.Accept();
-                // }
-                // catch (Exception e)
-                // {
-                //     Console.WriteLine(e);
-                // }
-                //var handler = _listenSocket.Accept();
-                
+
                 Console.WriteLine("Server is up. Waiting for the response");
 
-                //var c = (IModuleBody) this;
-                
                 IModuleBody.Controller(Update); // Run Update via new Thread
-                
-                //throw new NotImplementedException();
 
             }
             
