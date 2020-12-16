@@ -14,7 +14,8 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 ModuleDispatcher.runModule = true;
 Dispatcher.GetInstance();
-
+var res = await ModuleDispatcher._body.RunModuleAsync(additionalArguments:" 0123456789 0123");
+Console.WriteLine(res);
 Console.ReadKey();
 
 

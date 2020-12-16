@@ -19,7 +19,7 @@ namespace RuntimeCore
     internal class ModuleDispatcher : ILinkerBaseFields
     {
         internal static bool runModule = false;
-        private static readonly ModuleDispatcher.Body _body;
+        internal static readonly ModuleDispatcher.Body _body;
         private static readonly ModuleDispatcher.Initializer _initializer;
         private static readonly ModuleDispatcher.InvokeHandler _invokeHandler;
         
@@ -54,7 +54,7 @@ namespace RuntimeCore
             public void Invoke() => Invoke(String.Empty);
         }
 
-        private class Body : IModuleBody
+        internal class Body : IModuleBody
         {
             internal string pathToLanguages, pathToModules;
             public object JsonConvert { get; private set; }
@@ -88,22 +88,19 @@ namespace RuntimeCore
                 var br = new BinaryReader(server);
                
                 string json = null;
+                var a = 1;
                 while (true)
                 {
                     try
                     {
                         var len = (int)br.ReadUInt32();            // Read string length
                       
-                        json = new string(br.ReadChars(len));    // Read string
-
+                        json ="{"+ '\u0022' + new string(br.ReadChars(len + 2));    // Read string
+                        a++;
                         //Console.WriteLine(json);
+                        Console.WriteLine(@"dddddddddddd{0}{1}", json, a);
 
-                        //json = new string(json.Reverse().ToArray());  // Just for fun
-
-                        //var buf = Encoding.ASCII.GetBytes(json);     // Get ASCII byte array     
-                        //bw.Write((uint)buf.Length);                // Write string length
-                        //bw.Write(buf);                              // Write string
-                        //Console.WriteLine("Wrote: \"{0}\"", json);
+                        
                     }
                     catch (EndOfStreamException)
                     {
@@ -174,7 +171,7 @@ namespace RuntimeCore
                 }
                 
 
-                
+
             }
 
             public String GetStr() => base.ToString();

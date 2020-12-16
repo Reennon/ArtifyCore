@@ -10,28 +10,27 @@
 # For example:
 import cv2
 import json
-
+import sys
 Error = 0
-
-#Input data
-# parsed_string = sys.argv[1]
-
 try:
- parsed_string = """{
-   "numberOfImages": 2,
-   "numberOfImage": [
-     {
-
-       "Name": "D:/ProjArtify/ArtifyCore/Users/Yura/image1.png"
-
-     },
-     {
-       "Name": "D:/ProjArtify/ArtifyCore/Users/Yura/image2.png"
-
-     }
-   ],
-   "orderCompleted": true
- }"""
+    #Input data
+ parsed_string = sys.argv[1]
+    #Example
+#parsed_string = """{
+#   "numberOfImages": 2,
+#   "numberOfImage": [
+#     {
+#
+#      "Name": "D:/ProjArtify/ArtifyCore/Users/Yura/image1.png"
+#
+#     },
+#     {
+#       "Name": "D:/ProjArtify/ArtifyCore/Users/Yura/image2.png"
+#
+#    }
+#   ],
+#   "orderCompleted": true
+# }"""
 
     #Parse Json
  parsed_string = json.loads(parsed_string)
@@ -56,6 +55,7 @@ finally:
 
     #Return Json-Results
     dict['EEError'] = Error
+        #Hear write your result
     dict['Result'] = 'Your program successfully completed'
     app_json = json.dumps(dict)
 
