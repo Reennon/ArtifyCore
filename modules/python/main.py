@@ -51,18 +51,22 @@ try:
 except:
     Error = 1
 finally:
-    dict={}
-
-    #Return Json-Results
-    dict['EEError'] = Error
-        #Hear write your result
-    dict['Result'] = 'Your program successfully completed'
-    app_json = json.dumps(dict)
-
-
     try:
+        dict={}
+
+        #Return Json-Results
+        dict['EEError'] = Error
+
+             #Hear write your result
+        dict['Result'] = status
+        app_json = json.dumps(dict)
+
+             #Hear we return Json-Results
         f = open(r'\\.\pipe\NPtes', 'r+b', 0)
         f.write(app_json.encode())
         f.seek(0)
     except:
-        pass
+        app_json = json.dumps(dict)
+        f = open(r'\\.\pipe\NPtes', 'r+b', 0)
+        f.write(app_json.encode())
+        f.seek(0)

@@ -98,7 +98,7 @@ namespace RuntimeCore
                         json ="{"+ '\u0022' + new string(br.ReadChars(len + 2));    // Read string
                         a++;
                         //Console.WriteLine(json);
-                        Console.WriteLine(@"dddddddddddd{0}{1}", json, a);
+                        
 
                         
                     }
