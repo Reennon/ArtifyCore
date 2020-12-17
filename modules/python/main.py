@@ -8,36 +8,31 @@
 
 
 # For example:
-import cv2
-import json
-import sys
-Error = 0
-try:
-    #Input data
- parsed_string = sys.argv[1]
-    #Example
+# Your json:
 #parsed_string = """{
 #   "numberOfImages": 2,
 #   "numberOfImage": [
-#     {
-#
-#      "Name": "D:/ProjArtify/ArtifyCore/Users/Yura/image1.png"
-#
-#     },
-#     {
-#       "Name": "D:/ProjArtify/ArtifyCore/Users/Yura/image2.png"
-#
-#    }
-#   ],
-#   "orderCompleted": true
+#     "D:/ProjArtify/ArtifyCore/Users/Yura/image1.png",
+#     "D:/ProjArtify/ArtifyCore/Users/Yura/image2.png"
+#   ]
 # }"""
+import cv2
+import json
+import sys
 
-    #Parse Json
- parsed_string = json.loads(parsed_string)
- numberOfImage = int(parsed_string['numberOfImages'])
+#Your errors
+Error = 0
+try:
+
+    #Input data(we parse it)
+ app_json = json.loads(sys.argv[1])
+ 
+    #Number of image
+ numberOfImage = app_json['numberOfImages']
  arr = []
- for i in range(int(numberOfImage)):
-    arr.append(parsed_string["numberOfImage"][1]["Name"])
+    #Add your filePATH to array
+ for i in range(numberOfImage):
+    arr.append(app_json['Image'][i])
 
     # Your image
  img = cv2.imread(arr[0])
@@ -47,25 +42,18 @@ try:
 
     # Store the resultant image
  status = cv2.imwrite(arr[0], img)
-
+ 
 except:
     Error = 1
 finally:
     try:
         dict={}
-
-        #Return Json-Results
+        #Hear write your result(MUST BE "EEError" not "Error")
         dict['EEError'] = Error
-
-             #Hear write your result
         dict['Result'] = status
-        app_json = json.dumps(dict)
-
-             #Hear we return Json-Results
-        f = open(r'\\.\pipe\NPtes', 'r+b', 0)
-        f.write(app_json.encode())
-        f.seek(0)
-    except:
+        
+    finally:
+        #Return Json-Results
         app_json = json.dumps(dict)
         f = open(r'\\.\pipe\NPtes', 'r+b', 0)
         f.write(app_json.encode())
