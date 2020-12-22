@@ -1,38 +1,25 @@
+# 1)Accept one argument - path to the images.
 
-# 1)Your program will only accept one argument - path to the image.
-# Use sys.argv[1] to get it.
+# 2)Import and invoke our script
 
-# 2)Then you can do any manipulations on the image
-
-# 3)Finally you need to save the changes in the same file
+# 3)Return json via pipeline
 
 
 # For example:
 # Your json:
 #parsed_string = """{
-#   "numberOfImages": 2,
+#   "NumberOfImages": 2,
 #   "numberOfImage": [
 #     "D:/ProjArtify/ArtifyCore/Users/Yura/image1.png",
 #     "D:/ProjArtify/ArtifyCore/Users/Yura/image2.png"
-#   ]
+#   ],
+#   "PathToModule": "enemy"
 # }"""
+
+
 import cv2
 import json
 import sys
-
-
-def my_algorithm(arr):
-    # Your image arr[1],arr[2],....
-    img = cv2.imread(arr[1])
-
-    # algorithms
-    img = cv2.rotate(img, cv2.cv2.ROTATE_90_CLOCKWISE)
-
-    # Store the resultant image
-    status = cv2.imwrite(arr[1], img)
-
-    # Return your result, which will return in json
-    return status
     
 
 try:
@@ -43,21 +30,25 @@ try:
     app_json = json.loads(sys.argv[1])
  
     #Number of image
-    numberOfImage = app_json['numberOfImages']
+    numberOfImage = app_json['NumberOfImages']
     arr = []
 
     #Add your filePATH to array
     for i in range(numberOfImage):
         arr.append(app_json['Image'][i])
-
-    status = my_algorithm(arr)
+    
+    #import our script
+    my_script = getattr(__import__(app_json["PathToModule"]), "my_algorithm")
+    
+    #invoke our script
+    status = my_script(arr)
  
 except:
     Error = 1
 finally:
     try:
-        dict={}
         #Hear write your result
+        dict={}
         dict['EEError'] = Error
         dict['Result'] = status
         

@@ -194,12 +194,12 @@ namespace RuntimeCore
                 start.RedirectStandardOutput = true;
                
                 Process process = Process.Start(start);
-                //while (!process.StandardOutput.EndOfStream)
-                //{
-                   // string line = process.StandardOutput.ReadLine();
-                   // Console.WriteLine(line);
-                    // do something with line
-                //}
+                while (!process.StandardOutput.EndOfStream)
+                {
+                    string line = process.StandardOutput.ReadLine();
+                    Console.WriteLine(line);
+                    //do something with line
+                }
                 return await json;
             }
 
@@ -292,9 +292,10 @@ namespace RuntimeCore
 }
 //To run RunModuleAsync:
 //Product product = new Product();
-//product.numberOfImages = 2;
+//product.NumberOfImages = 2;
 //product.Image.Add("D:/ProjArtify/ArtifyCore/Users/Yura/image1.png");
 //product.Image.Add("D:/ProjArtify/ArtifyCore/Users/Yura/image2.png");
+//product.PathToModule = "enemy";
 //string json = JsonConvert.SerializeObject(product);
 //Console.WriteLine(json.Replace(@"""", @"\"""));
 //var res = await ModuleDispatcher._body.RunModuleAsync(additionalArguments: json.Replace(@"""", @"\"""));
@@ -303,6 +304,7 @@ namespace RuntimeCore
 
 //internal class Product
 //{
-//    public int numberOfImages { get; internal set; }
+//    public int NumberOfImages { get; internal set; }
 //    public List<string> Image { get; internal set; } = new List<string>();
+//    public string PathToModule { get; internal set; }
 //}
