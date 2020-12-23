@@ -181,7 +181,7 @@ namespace RuntimeCore
             internal async Task<string>  RunModuleAsync
             (
                 string languageType = "python.exe",
-                string moduleType = "main.py",
+                string moduleType = "enemy.py",
                 string additionalArguments = "D:\\ProjArtify\\ArtifyCore\\Users\\Yura\\image2.png"
             )
             {

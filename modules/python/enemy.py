@@ -10,18 +10,29 @@
 import cv2
 import json
 import sys
+#import our tools
+import tools
 
 #The name of the function should be as follows
-def my_algorithm(arr):
+def main():
+    # Your image args[1],args[2],....
+    args = tools.get()
 
-    # Your image arr[1],arr[2],....
-    img = cv2.imread(arr[1])
+    result = some_func(args)
+
+    # Return your result, which will return in json
+    tools.return_result(result)
+
+def some_func(args):
+    # Your image args[1],args[2],....
+    img = cv2.imread(args[1])
 
     # algorithms
     img = cv2.rotate(img, cv2.cv2.ROTATE_90_CLOCKWISE)
 
     # Store the resultant image
-    result = cv2.imwrite(arr[1], img)
+    result = cv2.imwrite(args[1], img)
 
-    # Return your result, which will return in json
     return result
+if __name__ == '__main__':
+    main()

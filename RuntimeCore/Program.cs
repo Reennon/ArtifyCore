@@ -14,10 +14,26 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 ModuleDispatcher.runModule = true;
 Dispatcher.GetInstance();
+Product product = new Product();
+product.NumberOfImages = 2;
+product.Image.Add("D:/ProjArtify/ArtifyCore/Users/Yura/image1.png");
+product.Image.Add("D:/ProjArtify/ArtifyCore/Users/Yura/image2.png");
+product.PathToModule = "enemy";
+string json = JsonConvert.SerializeObject(product);
+Console.WriteLine(json.Replace(@"""", @"\"""));
+var res = await ModuleDispatcher._body.RunModuleAsync(additionalArguments: json.Replace(@"""", @"\"""));
+Console.WriteLine(res);
+Console.ReadKey();
+
+internal class Product
+{
+    public int NumberOfImages { get; internal set; }
+    public List<string> Image { get; internal set; } = new List<string>();
+    public string PathToModule { get; internal set; }
+}
 
 
-
-    internal sealed class Dispatcher : ILinkerBaseFields
+internal sealed class Dispatcher : ILinkerBaseFields
 {
     private static readonly Body _body;
     private static readonly Initializer _initializer;
