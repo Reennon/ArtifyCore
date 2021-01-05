@@ -37,7 +37,7 @@ namespace RuntimeCore {
             
             public void Invoke(String runArgument = null)
             {
-                _body.Start();
+                _body.Start("");
                 Console.WriteLine("ip in handler");
                 //throw new NotImplementedException();
             }
@@ -65,26 +65,26 @@ namespace RuntimeCore {
                 var action = values?["command"] switch
                 {
                     "run_module" 
-                        => _invokeHandler.SwitchInputAction("default_enhance") 
+                        => _invokeHandler.SwitchInputAction("default_enhance","") 
                            + values?["module_language"] switch
                            {
-                               "python" => _invokeHandler.SwitchInputAction("python")
-                               , _ => _invokeHandler.SwitchInputAction("default_enhance")
+                               "python" => _invokeHandler.SwitchInputAction("python", "")
+                               , _ => _invokeHandler.SwitchInputAction("default_enhance", "")
                            }
                     , "run_script" 
-                        => _invokeHandler.SwitchInputAction("run_script")
+                        => _invokeHandler.SwitchInputAction("run_script", "")
                     , "build" 
-                        => _invokeHandler.SwitchInputAction("build")
+                        => _invokeHandler.SwitchInputAction("build", "")
                     , "get_build" 
-                        => _invokeHandler.SwitchInputAction("get_build")
+                        => _invokeHandler.SwitchInputAction("get_build", "")
                     , "update_executable" 
-                        => _invokeHandler.SwitchInputAction("update_executable")
+                        => _invokeHandler.SwitchInputAction("update_executable", "")
                             + values?["language_name"] switch
                             {
-                                "python" => _invokeHandler.SwitchInputAction("python" + values?["language_executable"])
-                                , _ => _invokeHandler.SwitchInputAction("python" + values?["language_executable"])
+                                "python" => _invokeHandler.SwitchInputAction("python" + values?["language_executable"], "")
+                                , _ => _invokeHandler.SwitchInputAction("python" + values?["language_executable"], "")
                             }
-                    , _ => _invokeHandler.SwitchInputAction("default_enhance"),
+                    , _ => _invokeHandler.SwitchInputAction("default_enhance", ""),
                 };
 
                 action();
@@ -141,7 +141,7 @@ namespace RuntimeCore {
                 // handler.Close();
             }
             
-            public void Start()
+            public void Start(String path)
             {
                 Console.WriteLine($"{base.ToString()} has started!");
                 _listenSocket.Bind(_ipPoint);
@@ -180,7 +180,7 @@ namespace RuntimeCore {
         private sealed class InvokeHandler : IInvokeHandler
         {
         
-            public Action SwitchInputAction(String command) =>
+            public Action SwitchInputAction(String command, String path) =>
                 command switch
                 {
                     "GetName" => _body.SetStr,
@@ -199,7 +199,7 @@ namespace RuntimeCore {
         
         public void InputInvoker(String command)
         {
-            var action = _invokeHandler.SwitchInputAction(command);
+            var action = _invokeHandler.SwitchInputAction(command,"");
             action();
 
         }

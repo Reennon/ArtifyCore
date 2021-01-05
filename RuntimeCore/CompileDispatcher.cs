@@ -44,13 +44,13 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
         // ReSharper disable once MethodOverloadWithOptionalParameter
         public void Invoke(String str = "")
         {
-            _body.Start();
+            _body.Start("");
             Console.WriteLine($"{ToString()} has started!");
         }
 
         public void Invoke()
         {
-            Invoke(String.Empty);
+            Invoke();
         }
     }
 
@@ -70,7 +70,7 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
             throw new NotImplementedException();
         }
 
-        public void Start()
+        public void Start(String path)
         {
             Console.WriteLine($"{ToString()} has started!");
         }
@@ -344,7 +344,7 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
 
     private sealed class InvokeHandler : IInvokeHandler
     {
-        public Action SwitchInputAction(String command)
+        public Action SwitchInputAction(String command, String path)
         {
             throw new NotImplementedException();
         }

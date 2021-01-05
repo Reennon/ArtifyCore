@@ -12,7 +12,7 @@ using RuntimeCore;
 using JsonException = System.Text.Json.JsonException;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-ModuleDispatcher.runModule = true;
+ModuleDispatcher.init(@"InitializeDispatcherModule.txt");
 Dispatcher.GetInstance();
 Product product = new Product();
 product.NumberOfImages = 2;
@@ -85,7 +85,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
     {
         public void Invoke(String str = "")
         {
-            _body.Start();
+            _body.Start("");
 
             Console.WriteLine($"{ToString()} has started!");
             //throw new NotImplementedException();
@@ -112,7 +112,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
             throw new NotImplementedException();
         }
 
-        public void Start()
+        public void Start(string path)
         {
             Console.WriteLine($"{base.ToString()} has started!");
             
@@ -125,7 +125,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
     private sealed class InvokeHandler : IInvokeHandler
     {
 
-        public Action SwitchInputAction(String command)
+        public Action SwitchInputAction(String command, String path)
         {
             try
             {

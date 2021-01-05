@@ -127,7 +127,7 @@ namespace RuntimeCore
         //public void InputOutput(String command);
         
         public void Update();
-        public void Start();
+        public void Start(String path);
     }
 
     public interface ILinkerBaseFields
@@ -146,7 +146,7 @@ namespace RuntimeCore
     public interface IInvokeHandler
     {
 
-        public Action SwitchInputAction(String command);
+        public Action SwitchInputAction(String command, String path);
 
         public Func<String> SwitchOutputAction(String command);
 
