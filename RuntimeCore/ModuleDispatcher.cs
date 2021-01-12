@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -206,23 +207,57 @@ namespace RuntimeCore
                         
                     }
                 }
-                System.Diagnostics.Process process = new System.Diagnostics.Process();
-                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                startInfo.FileName = "cmd.exe";
-                StringBuilder var1 = new StringBuilder();
-                foreach (string i in list)
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    var1.Append($"pip install {i} && ");
+                    System.Diagnostics.Process process = new System.Diagnostics.Process();
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                    startInfo.FileName = "cmd.exe";
+                    StringBuilder var1 = new StringBuilder();
+                    foreach (string i in list)
+                    {
+                        var1.Append($"pip install {i} & ");
+                    }
+                    DirectoryInfo parentDir = Directory.GetParent(ExecutableLanguage["python.exe"]);
+                    var myParentDir = parentDir.FullName;
+                    string arguments = "/C "  + $@"cd {myParentDir} & "
+                    + @"activate.bat & " + var1 + @"deactivate.bat";
+                    Console.WriteLine(arguments);
+                    startInfo.Arguments = arguments;
+                    process.StartInfo = startInfo;
+                    process.Start();
+                    
+
                 }
-                DirectoryInfo parentDir = Directory.GetParent(ExecutableLanguage["python.exe"]);
-                var myParentDir = parentDir.FullName;
-                string arguments = "/C " + "D: && " + $@"cd {myParentDir} && " 
-                + @"activate.bat && " + var1 + @"deactivate.bat";
-                Console.WriteLine(arguments);
-                startInfo.Arguments = arguments;
-                process.StartInfo = startInfo;
-                process.Start();
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Console.WriteLine(OSPlatform.OSX);
+                }
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    StringBuilder var1 = new StringBuilder();
+                    foreach (string i in list)
+                    {
+                        var1.Append($"pip install {i} ; ");
+                    }
+                    DirectoryInfo parentDir = Directory.GetParent(ExecutableLanguage["python.exe"]);
+                    var myParentDir = parentDir.FullName;
+                    string command = $@"cd {myParentDir} ; "+ "activate ; " + var1 + "deactivate";
+                    //example: ("gnome-terminal -x bash -ic 'cd $HOME; ls; bash'")
+                    Process proc = new System.Diagnostics.Process();
+                    proc.StartInfo.FileName = "/bin/bash";
+                    proc.StartInfo.Arguments = "-c \" " + command + " \"";
+                    Console.WriteLine(proc.StartInfo.Arguments);
+                    proc.StartInfo.UseShellExecute = false;
+                    proc.StartInfo.RedirectStandardOutput = true;
+                    proc.Start();
+
+                    while (!proc.StandardOutput.EndOfStream)
+                    {
+                        Console.WriteLine(proc.StandardOutput.ReadLine());
+                    }
+                }
             }
 
             public String GetStr() => base.ToString();
@@ -238,21 +273,40 @@ namespace RuntimeCore
             {
                 CompileScript(moduleType);
                 Task<string> json = RunServerAsync();
-                ProcessStartInfo start = new ProcessStartInfo();
-                start.FileName = ExecutableLanguage[languageType];
-                start.Arguments = string.Format("{0} {1}", ExecutableModule[moduleType], additionalArguments);
-                start.UseShellExecute = false;
-
-                start.RedirectStandardOutput = true;
-               
-                Process process = Process.Start(start);
-                while (!process.StandardOutput.EndOfStream)
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    string line = process.StandardOutput.ReadLine();
-                    Console.WriteLine(line);
-                    //do something with line
+                    ProcessStartInfo start = new ProcessStartInfo();
+                    start.FileName = ExecutableLanguage[languageType];
+                    start.Arguments = string.Format("{0} {1}", ExecutableModule[moduleType], additionalArguments);
+                    start.UseShellExecute = false;
+
+                    start.RedirectStandardOutput = true;
+
+                    Process process = Process.Start(start);
+                    while (!process.StandardOutput.EndOfStream)
+                    {
+                        string line = process.StandardOutput.ReadLine();
+                        Console.WriteLine(line);
+                        //do something with line
+                    }
+                }
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process proc = new System.Diagnostics.Process();
+                    proc.StartInfo.FileName = ExecutableLanguage[languageType];
+                    proc.StartInfo.Arguments = string.Format("{0} {1}", ExecutableModule[moduleType], additionalArguments);
+                    Console.WriteLine(proc.StartInfo.Arguments);
+                    proc.StartInfo.UseShellExecute = false;
+                    proc.StartInfo.RedirectStandardOutput = true;
+                    proc.Start();
+
+                    while (!proc.StandardOutput.EndOfStream)
+                    {
+                        Console.WriteLine(proc.StandardOutput.ReadLine());
+                    }
                 }
                 return await json;
+
             }
             private static async Task<string> RunServerAsync()
             {
