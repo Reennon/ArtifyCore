@@ -169,6 +169,7 @@ internal sealed class Dispatcher : ILinkerBaseFields
                         command = "build"
                         , userId = json["userId"]
                         , dllName = json["dllName"]
+                        , path = json["path"]
                         , NECESSARY_DLLS = json["NECESSARY_DLLS"]
                         , ASSEMBLY_NAME = json["ASSEMBLY_NAME"]
                         , UNSAFE_CODE = json["UNSAFE_CODE"]

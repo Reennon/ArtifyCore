@@ -51,7 +51,7 @@ namespace RuntimeCore {
         {
             private const Int32 Port = 50000;
 
-            private readonly IPEndPoint _ipPoint = new (IPAddress.Parse("127.0.0.1"), Port);
+            private readonly IPEndPoint _ipPoint = new (IPAddress.Parse("192.168.0.103"), Port);
 
             // create socket
             private readonly Socket _listenSocket = new (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

@@ -168,6 +168,7 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
         
         public async Task<String> RunRecompilationAsync(String dllName
             , String userId
+            , String path
             // ReSharper disable once InconsistentNaming
             , List<String> NECESSARY_DLLS = null
             // ReSharper disable once InconsistentNaming
@@ -177,12 +178,13 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
         )
         {
             var script = String.Empty;
+            var pathPrefix = @"..\..\..\..\..\ArtifyAPI";
             //Console.WriteLine(ASSEMBLY_NAME);
             Array.ForEach(
-                new DirectoryInfo(@"..\..\..\..\Scripts")
+                new DirectoryInfo(@$"{pathPrefix}\{path}\Scripts")
                     .GetFiles("*.cs")
                 , file
-                    => script += File.ReadAllText($@"..\..\..\..\Scripts\{file.Name}"));
+                    => script += File.ReadAllText($@"{pathPrefix}\{path}\Scripts\{file.Name}"));
 
             var task = new Task<String>( () =>
             {
@@ -349,7 +351,7 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
                     {
                         command = "buildResult"
                         , result = "Success"
-                        , value = $@"Release\{userId}"
+                        , value = $@"{Assembly.GetExecutingAssembly().Location}\..\Release\{userId}\{dllName}.dll"
                         , userId
                     });
                 //return ($@"{userId}\{dllName}.dll", CreateJSONRuntimeConfig($@"{userId}\{dllName}.runtimeConfig", ASSEMBLY_NAME));
@@ -432,6 +434,7 @@ internal sealed class CompileDispatcher : ILinkerBaseFields
                             , command = "return_build"
                             , value = _body.RunRecompilationAsync( json["dllName"]
                                 , json["userId"].ToString() as String
+                                , json["path"]
                                 , json["NECESSARY_DLLS"]
                                 , json["ASSEMBLY_NAME"] ??=
                                     (DateTime.Now.Date + DateTime.Now.TimeOfDay + DateTime.Now.Millisecond.ToString() + "_Assembly")

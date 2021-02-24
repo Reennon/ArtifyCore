@@ -52,6 +52,8 @@ namespace RuntimeCore {
         private sealed class Body : IModuleBody
         {
             private static readonly HttpClient Client = new HttpClient();
+            private const String ApiRoute = "http://192.168.0.103:4000";
+            private const String NewEndpointRoute = ApiRoute+"/artify/new/";
             
             public void InputOutput(String command)
             {
@@ -62,7 +64,7 @@ namespace RuntimeCore {
                 Client.SendAsync(new HttpRequestMessage()
                 {
                     Method = HttpMethod.Post
-                    , RequestUri = new Uri("http://127.0.0.1:5000/Artify/new")
+                    , RequestUri = new(NewEndpointRoute)
                     , Content = new StringContent(command, Encoding.UTF8, "json")
                 }).ConfigureAwait(true).GetAwaiter().GetResult().EnsureSuccessStatusCode();
 
@@ -90,13 +92,13 @@ namespace RuntimeCore {
                 , String userId = "user"
                 // ReSharper disable once StringLiteralTypo
                 // ReSharper disable once InconsistentNaming
-                , String ADDRESS = "http://127.0.0.1:5000/Artify/new/"
+                , String ADDRESS = NewEndpointRoute
                 // ReSharper disable once InconsistentNaming
                 , String MEDIA_TYPE = "application/json"
                 // ReSharper disable once InconsistentNaming
                 , Boolean? CONFIGURE_AWAIT = false)
             {
-                ADDRESS ??= "http://127.0.0.1:5000/Artify/new/";
+                ADDRESS ??= NewEndpointRoute;
                 MEDIA_TYPE ??= "application/json";
                 CONFIGURE_AWAIT ??= false;
                 return await Client.SendAsync(new HttpRequestMessage()
@@ -110,13 +112,13 @@ namespace RuntimeCore {
                 , String userId = "user"
                 // ReSharper disable once StringLiteralTypo
                 // ReSharper disable once InconsistentNaming
-                , String ADDRESS = "http://127.0.0.1:5000/Artify/error/"
+                , String ADDRESS = "http://127.0.0.1:4000/artify/error/"
                 // ReSharper disable once InconsistentNaming
                 , String MEDIA_TYPE = "json"
                 // ReSharper disable once InconsistentNaming
                 , Boolean? CONFIGURE_AWAIT = false)
             {
-                ADDRESS ??= "http://127.0.0.1:5000/Artify/new/";
+                ADDRESS ??= ApiRoute+@"/artify/error";
                 MEDIA_TYPE ??= "application/json";
                 CONFIGURE_AWAIT ??= false;
                 return await Client.SendAsync(new HttpRequestMessage()
@@ -130,13 +132,13 @@ namespace RuntimeCore {
                 , String userId = "user"
                 // ReSharper disable once StringLiteralTypo
                 // ReSharper disable once InconsistentNaming
-                , String ADDRESS = "http://127.0.0.1:5000/Artify/new/"
+                , String ADDRESS = "http://127.0.0.1:4000/artify/new/"
                 // ReSharper disable once InconsistentNaming
                 , String MEDIA_TYPE = "json"
                 // ReSharper disable once InconsistentNaming
                 , Boolean? CONFIGURE_AWAIT = false)
             {
-                ADDRESS ??= "http://127.0.0.1:5000/Artify/new/";
+                ADDRESS ??= "http://127.0.0.1:4000/artify/new/";
                 MEDIA_TYPE ??= "application/json";
                 CONFIGURE_AWAIT ??= false;
                 return await Client.SendAsync(new HttpRequestMessage()
